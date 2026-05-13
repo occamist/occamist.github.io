@@ -7,7 +7,7 @@ tags:
 - go
 - cli
 slug: laverna-a-christmas-gift-for-language-learners
-canonicalURL: https://wormholerelays.com/posts/a-christmas-gift-for-language-learners
+canonicalURL: https://occamist.dev/posts/a-christmas-gift-for-language-learners
 ShowReadingTime: true
 ShowBreadCrumbs: true
 ShowPostNavLinks: true
@@ -27,8 +27,8 @@ Laverna is a sleek command-line tool that transforms text into spoken audio. All
 
 ## Getting Started
 
-If you're a Go user, simply run `go install github.com/mrwormhole/laverna@latest`
-Not a Go developer? No problem! You can download ready-to-use binaries directly from [releases](https://github.com/mrwormhole/laverna/releases/tag/v0.0.5).
+If you're a Go user, simply run `go install github.com/occamist/laverna@latest`
+Not a Go developer? No problem! You can download ready-to-use binaries directly from [releases](https://github.com/occamist/laverna/releases/tag/v0.0.5).
 
 After you have installed, simply create a YAML file such as example.yaml
 
@@ -60,6 +60,6 @@ Usage of laverna:
         maximum number of concurrent downloads (default 20)
 ```
 
-Want to give Laverna a try this holiday season? Head over to [Laverna GitHub Repository](https://github.com/mrwormhole/laverna) and you can start creating your personalized language learning audio. Happy Holidays and happy learning! 🎄🎧✨
+Want to give Laverna a try this holiday season? Head over to [Laverna GitHub Repository](https://github.com/occamist/laverna) and you can start creating your personalized language learning audio. Happy Holidays and happy learning! 🎄🎧✨
 
 Found a bug? Spotted an issue? Have a brilliant idea to share? Don't hesitate to give me a nudge! 

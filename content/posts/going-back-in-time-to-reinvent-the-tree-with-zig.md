@@ -7,7 +7,7 @@ tags:
 - zig
 - tree
 slug: going-back-in-time-to-reinvent-the-tree-with-zig
-canonicalURL: https://wormholerelays.com/posts/going-back-in-time-to-reinvent-the-tree-with-zig/
+canonicalURL: https://occamist.dev/posts/going-back-in-time-to-reinvent-the-tree-with-zig/
 ShowReadingTime: true
 ShowBreadCrumbs: true
 ShowPostNavLinks: true
@@ -19,7 +19,7 @@ cover:
   alt: bodhi-tree
 ---
 
-Over the Christmas holiday, I migrated the classic UNIX `tree` utility to Zig, creating a modernized fork called [`bo`](https://github.com/mrwormhole/bo). The original tree project has been around since the 90s, displaying directory structures in a hierarchical format. While the C codebase is elegant, it carries decades of legacy baggage. Obsolete platform support, ancient Makefile, and preprocessing macros for long-dead operating systems.
+Over the Christmas holiday, I migrated the classic UNIX `tree` utility to Zig, creating a modernized fork called [`bo`](https://github.com/occamist/bo). The original tree project has been around since the 90s, displaying directory structures in a hierarchical format. While the C codebase is elegant, it carries decades of legacy baggage. Obsolete platform support, ancient Makefile, and preprocessing macros for long-dead operating systems.
 
 The migration resulted in a lot of deleting which is a lot of fun and I replaced the Makefile with Zig's build system, removed support for OS/2 and proprietary HP systems, deleted the archaic `.lsm` metadata format, and embedded the man page directly into the binary. This post walks through the technical decisions and trade-offs of modernizing a 30-year-old C project.
 
@@ -193,4 +193,4 @@ Modernizing legacy C projects is satisfying when you pick your battles carefully
 
 Zig's C interop makes incremental migration practical. I didn't need to rewrite everything upfront, wrap the C in a build.zig, add a Zig entrypoint, then port pieces over time as needed.
 
-The [tree](https://oldmanprogrammer.net/source.php?dir=projects/tree) → [bo](https://github.com/mrwormhole/bo) migration took a weekend, resulted in less code, and now cross-compiles to dozens of targets from a single command. Not bad for a holiday project.
+The [tree](https://oldmanprogrammer.net/source.php?dir=projects/tree) → [bo](https://github.com/occamist/bo) migration took a weekend, resulted in less code, and now cross-compiles to dozens of targets from a single command. Not bad for a holiday project.

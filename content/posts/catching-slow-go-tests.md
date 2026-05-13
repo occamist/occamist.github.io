@@ -7,7 +7,7 @@ tags:
 - go
 - testing
 slug: catching-slow-go-tests
-canonicalURL: https://wormholerelays.com/posts/catching-slow-go-tests
+canonicalURL: https://occamist.dev/posts/catching-slow-go-tests
 ShowReadingTime: true
 ShowBreadCrumbs: true
 ShowPostNavLinks: true

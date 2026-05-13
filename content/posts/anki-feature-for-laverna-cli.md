@@ -7,7 +7,7 @@ tags:
 - go
 - cli
 slug: anki-feature-for-laverna-cli
-canonicalURL: https://wormholerelays.com/posts/anki-feature-for-laverna-cli
+canonicalURL: https://occamist.dev/posts/anki-feature-for-laverna-cli
 ShowReadingTime: true
 ShowBreadCrumbs: true
 ShowPostNavLinks: true
@@ -23,7 +23,7 @@ In this post, I announce an overhaul for Laverna CLI and new version which suppo
 
 ## The Recap
 
-In this blog [post](https://wormholerelays.com/posts/a-christmas-gift-for-language-learners) I have introduced Laverna CLI which was a language learning tool designed to swallow Google's speech API. It was immensely useful but it lacked some features such as Anki integration.
+In this blog [post](https://occamist.dev/posts/a-christmas-gift-for-language-learners) I have introduced Laverna CLI which was a language learning tool designed to swallow Google's speech API. It was immensely useful but it lacked some features such as Anki integration.
 
 ## The New Anki Integration
 
@@ -31,7 +31,7 @@ Starting with `v0.1.0`, users can use the new `anki` command to create anki deck
 
 Now with the most amazing Go project [urfave/cli](https://github.com/urfave/cli), it was super easy to support subcommands and flags of subcommands. I was happy to dodge spf13/cobra's complexity. 
 
-And the previous default `laverna` command is now same as `laverna run` to keep the sweet backward compatibility. Plus we get shell completions for bash/zsh/fish as well. Make sure to check it out [here](https://github.com/mrwormhole/laverna#shell-completions)
+And the previous default `laverna` command is now same as `laverna run` to keep the sweet backward compatibility. Plus we get shell completions for bash/zsh/fish as well. Make sure to check it out [here](https://github.com/occamist/laverna#shell-completions)
 
 ```sh
 ❯ laverna --help
@@ -98,10 +98,10 @@ The below CSV will be called "Athai.csv", "A" postfix indicates the audio filena
 ฉันชอบ{{c1::ฟัง}}เพลง,I like to listen to music,ฟัง,เล่น,ดู,อ่าน,[sound:a.mp3],[sound:b.mp3],[sound:c.mp3],[sound:d.mp3],[sound:e.mp3]
 ```
 
-Finally, if you have imported the [Cloze Multi Choice Audio note type](https://github.com/mrwormhole/laverna/blob/main/note-type.apkg) into Anki, you can go ahead and import the CSV in `File > Import > Select CSV` then choose `Cloze Multi Choice Audio` note type and pick delimeter as comma.
+Finally, if you have imported the [Cloze Multi Choice Audio note type](https://github.com/occamist/laverna/blob/main/note-type.apkg) into Anki, you can go ahead and import the CSV in `File > Import > Select CSV` then choose `Cloze Multi Choice Audio` note type and pick delimeter as comma.
 
 ## Final words
 
 The best thing about this approach is you can sync whole media with Anki Sync so that you don't need to manage storage in your devices manually. And this is very exciting if you have Anki mobile app on your phone, you can really make the most of your time with learning languages.
 
-The CSV inputs can be generally generated via Gemini, in the future I plan to wrap Gemini API inside the Laverna CLI but there is no certain roadmap as I am testing it for now. I am currently testing Gemini's Vietnamese word generation, example CSV can be found [here](https://github.com/mrwormhole/laverna/blob/main/testdata/anki-vi-example.csv)
+The CSV inputs can be generally generated via Gemini, in the future I plan to wrap Gemini API inside the Laverna CLI but there is no certain roadmap as I am testing it for now. I am currently testing Gemini's Vietnamese word generation, example CSV can be found [here](https://github.com/occamist/laverna/blob/main/testdata/anki-vi-example.csv)

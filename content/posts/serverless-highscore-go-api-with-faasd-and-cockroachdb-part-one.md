@@ -9,7 +9,7 @@ tags:
 - cockroachdb
 - serverless
 slug: serverless-highscore-go-api-with-faasd-and-cockroachdb-part-one
-canonicalURL: https://wormholerelays.com/posts/serverless-highscore-go-api-with-faasd-and-cockroachdb-part-one/
+canonicalURL: https://occamist.dev/posts/serverless-highscore-go-api-with-faasd-and-cockroachdb-part-one/
 ShowReadingTime: true
 ShowBreadCrumbs: true
 ShowPostNavLinks: true
@@ -41,9 +41,6 @@ Requirements:
 * Hetzner Cloud account and API access token(optional)
 * SSH key and key name created in Hetzner Cloud(optional)
 
-Github Repository for setting up faasd server on Hetzner Cloud in the blink of an eye:
-[hetzner-terraform-faasd-repository](https://github.com/MrWormHole/hetzner-terraform-faasd)
-
 ### Why Hetzner Cloud?
 At least 1GB is required to be safe. So the pricing for CX11 and 2 gigs of RAM is really nice. You are free to use any cloud you like but I suggest small cloud providers instead of giant cloud providers due to the simplicity. Other alternatives could be Vultr, Linode, DigitalOcean...
 
@@ -69,7 +66,7 @@ sudo cat /var/lib/faasd/secrets/basic-auth-password; echo
 ```
 Having Terraform and Hetzner Cloud is not a hard requirement. But if you are into Terraform and you have a Hetzner Cloud account, that's great, you can run Terraform to provision your infrastructure faster and get a verbose output from your CLI. Just make sure to set your Hetzner api token and Hetzner ssh key name in vars.tf file.
 ```bash
-git clone https://github.com/MrWormHole/hetzner-terraform-faasd
+git clone https://github.com/occamist/hetzner-terraform-faasd
 cd hetzner-terraform-faasd
 terraform init
 terraform plan

@@ -8,7 +8,7 @@ tags:
 - typescript
 - cross-platform
 slug: building-cross-platform-magic-from-gtk-to-tauri
-canonicalURL: https://wormholerelays.com/posts/building-cross-platform-magic-from-gtk-to-tauri
+canonicalURL: https://occamist.dev/posts/building-cross-platform-magic-from-gtk-to-tauri
 ShowReadingTime: true
 ShowBreadCrumbs: true
 ShowPostNavLinks: true
@@ -44,12 +44,12 @@ Having worked with Python GTK bindings before, the difference is night and day. 
 
 You can build locally:
 ```bash
-git clone https://github.com/mrwormhole/keyboard-app
+git clone https://github.com/occamist/keyboard-app
 pnpm install
 pnpm tauri build
 ```
 
-Or I **strongly** recommend to download Tauri-made binaries directly from [releases](https://github.com/mrwormhole/keyboard-app/releases).
+Or I **strongly** recommend to download Tauri-made binaries directly from [releases](https://github.com/occamist/keyboard-app/releases).
 
 Arch Linux users get special treatment, there's an [AUR package](https://aur.archlinux.org/packages/keyboard-app) waiting for you. Please upvote it! ;)
 

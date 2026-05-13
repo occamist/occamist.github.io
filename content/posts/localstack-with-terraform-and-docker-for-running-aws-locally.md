@@ -9,7 +9,7 @@ tags:
 - terraform
 - docker
 slug: localstack-with-terraform-and-docker-for-running-aws-locally
-canonicalURL: https://wormholerelays.com/posts/localstack-with-terraform-and-docker-for-running-aws-locally/
+canonicalURL: https://occamist.dev/posts/localstack-with-terraform-and-docker-for-running-aws-locally/
 ShowReadingTime: true
 ShowBreadCrumbs: true
 ShowPostNavLinks: true
@@ -25,7 +25,7 @@ cover:
 &nbsp;&nbsp;&nbsp;&nbsp;Hello everyone, in this post I will be demonstrating how you can run localstack with Terraform and Docker and give you a proof of concept go application so you can tweak it according to your logic and follow anything you want to do such as integration/system tests for AWS services in your own CI/CD or localhost.
 
 Github Repository for PoC(proof of concept):
-[hotdog-PoC-repository](https://github.com/MrWormHole/hotdog-localstack-PoC)
+[hotdog-PoC-repository](https://github.com/occamist/hotdog-localstack-PoC)
 
 Requirements:
 * Docker
@@ -230,7 +230,5 @@ aws dynamodb scan --endpoint-url http://localhost:4566 --table-name dogs
 ### Result
 I had pretty much great experience with Localstack. I think even though Localstack is quite new, it seems like it can be used for learning AWS SDKs as a developer without actually using live AWS services and getting billed for it. This can also speed up developer's integration tests(along with CI/CD) and debugging processes if configured properly because there are many services Localstack provides and I have only configured and used 3 of them here. This also saves lots of costs for any companies.
 
-Also don't forget to check out Localstack's slack channel, they are really helpful for any issues you run into and follow me on Twitter for further questions!
+Also don't forget to check out Localstack's slack channel, they are really helpful for any issues you run into or for further questions!
 - [localstack-community.slack](https://localstack-community.slack.com)
-- [@mr_wormhole](https://twitter.com/mr_wormhole)
-

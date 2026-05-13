@@ -8,7 +8,7 @@ tags:
 - postgresql
 - turing-machine
 slug: sql-turing-completeness
-canonicalURL: https://wormholerelays.com/posts/sql-turing-completeness
+canonicalURL: https://occamist.dev/posts/sql-turing-completeness
 ShowReadingTime: true
 ShowBreadCrumbs: true
 ShowPostNavLinks: true
@@ -350,7 +350,7 @@ turing_machine=# select * FROM machine_steps;
 
 If you want do try on your own, you can clone my repository. Let's try `1001` for example.
 ```
-git clone https://github.com/mrwormhole/turing-machine-in-sql
+git clone https://github.com/occamist/turing-machine-in-sql
 docker compose up -d --build
 docker exec -it postgres-turing psql -U turing -d turing_machine
 turing_machine=# select * FROM machine_steps;

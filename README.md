@@ -1,3 +1,3 @@
-# mrwormhole.gitlab.io
+# occamist.gitlab.io
 
-WormholeRelays is the personal dev blog for myself only. It is made with Hugo 💙
+Occamist.dev is the personal dev blog for myself only. It is made with Hugo 💙

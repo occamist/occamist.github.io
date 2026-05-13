@@ -9,7 +9,7 @@ tags:
 - cockroachdb
 - serverless
 slug: serverless-highscore-go-api-with-faasd-and-cockroachdb-part-two
-canonicalURL: https://wormholerelays.com/posts/serverless-highscore-go-api-with-faasd-and-cockroachdb-part-two
+canonicalURL: https://occamist.dev/posts/serverless-highscore-go-api-with-faasd-and-cockroachdb-part-two
 ShowReadingTime: true
 ShowBreadCrumbs: true
 ShowPostNavLinks: true
@@ -24,7 +24,7 @@ cover:
 ## The Intro
 &nbsp;&nbsp;&nbsp;&nbsp;Hi everyone, this is the 2nd part of the series, we will be developing our API in this part. I will assume you have already followed the previous part and setup faasd and CockroachDB in your cloud server instance and have faas-cli in your both client computer and cloud server instance. I will also assume you have Go on your computer and a proper text editor. Let's quickly get started.
 
-[highscore-api-github-repo](https://github.com/MrWormHole/highscore-api)
+[highscore-api-github-repo](https://github.com/occamist/highscore-api)
 
 Requirements:
 - Go knowledge
@@ -60,7 +60,7 @@ functions:
   get-highscores:
     lang: golang-http
     handler: ./get-highscores
-    image: mrwormhole/get-highscores:latest
+    image: occamist/get-highscores:latest
     build_args:
       GO111MODULE: on
     environment:
@@ -169,7 +169,7 @@ sqlc generate
 I will initialize go modules and get [pq](https://github.com/lib/pq) which is a pure Go postgres driver. Why do we use postgres driver for CockroachDB? CockroachDB supports PostgreSQL wire protocol. This means it is almost fully compatible with postgres drivers and ORMs.
 
 ```
-go mod init github.com/mrwormhole/highscore-api
+go mod init github.com/occamist/highscore-api
 go get github.com/lib/pq
 ```
 
@@ -190,7 +190,7 @@ import (
 	"strings"
 
 	_ "github.com/lib/pq"
-	"github.com/mrwormhole/highscore-api/repository"
+	"github.com/occamist/highscore-api/repository"
 	handler "github.com/openfaas/templates-sdk/go-http"
 )
 
@@ -286,7 +286,7 @@ functions:
   get-highscores:
     lang: golang-http
     handler: ./get-highscores
-    image: mrwormhole/get-highscores:latest
+    image: occamist/get-highscores:latest
     build_args:
       GO111MODULE: on
     environment:
@@ -298,7 +298,7 @@ functions:
   post-highscore:
     lang: golang-http
     handler: ./post-highscore
-    image: mrwormhole/post-highscore:latest
+    image: occamist/post-highscore:latest
     build_args:
       GO111MODULE: on
     environment:
@@ -362,9 +362,9 @@ import (
 	"os"
 
 	_ "github.com/lib/pq"
-	"github.com/mrwormhole/highscore-api/middleware"
-	"github.com/mrwormhole/highscore-api/model"
-	"github.com/mrwormhole/highscore-api/repository"
+	"github.com/occamist/highscore-api/middleware"
+	"github.com/occamist/highscore-api/model"
+	"github.com/occamist/highscore-api/repository"
 	handler "github.com/openfaas/templates-sdk/go-http"
 )
 
@@ -480,7 +480,7 @@ functions:
   get-highscores:
     lang: golang-http
     handler: ./get-highscores
-    image: mrwormhole/get-highscores:latest
+    image: occamist/get-highscores:latest
     build_args:
       GO111MODULE: on
     environment:
@@ -492,7 +492,7 @@ functions:
   post-highscore:
     lang: golang-http
     handler: ./post-highscore
-    image: mrwormhole/post-highscore:latest
+    image: occamist/post-highscore:latest
     build_args:
       GO111MODULE: on
     environment:
@@ -505,7 +505,7 @@ functions:
   delete-highscore:
     lang: golang-http
     handler: ./delete-highscore
-    image: mrwormhole/delete-highscore:latest
+    image: occamist/delete-highscore:latest
     build_args:
       GO111MODULE: on
     environment:
@@ -532,8 +532,8 @@ import (
 	"strings"
 
 	_ "github.com/lib/pq"
-	"github.com/mrwormhole/highscore-api/middleware"
-	"github.com/mrwormhole/highscore-api/repository"
+	"github.com/occamist/highscore-api/middleware"
+	"github.com/occamist/highscore-api/repository"
 	handler "github.com/openfaas/templates-sdk/go-http"
 )
 

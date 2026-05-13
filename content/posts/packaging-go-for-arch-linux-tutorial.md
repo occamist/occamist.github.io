@@ -8,7 +8,7 @@ tags:
 - opensource
 - go
 slug: packaging-go-for-arch-linux-tutorial
-canonicalURL: https://wormholerelays.com/posts/packaging-go-for-arch-linux-tutorial
+canonicalURL: https://occamist.dev/posts/packaging-go-for-arch-linux-tutorial
 ShowReadingTime: true
 ShowBreadCrumbs: true
 ShowPostNavLinks: true
@@ -16,7 +16,7 @@ ShowWordCount: true
 ShowRssButtonInSectionTermList: true
 draft: false
 cover:
-  image: https://wormholerelays.com/ce2sjxav94seo7etkvfd.webp
+  image: https://occamist.dev/ce2sjxav94seo7etkvfd.webp
   alt: spiral-staircase
 ---
 

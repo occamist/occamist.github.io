@@ -7,7 +7,7 @@ tags:
 - go
 - linter
 slug: top-eight-underdog-linters-for-go
-canonicalURL: https://wormholerelays.com/posts/top-eight-underdog-linters-for-go
+canonicalURL: https://occamist.dev/posts/top-eight-underdog-linters-for-go
 ShowReadingTime: true
 ShowBreadCrumbs: true
 ShowPostNavLinks: true
@@ -271,14 +271,14 @@ func (q *Queries) ListHighscores(ctx context.Context) ([]Highscore, error) {
 ```shell
 ❯ go install github.com/tomarrell/wrapcheck/v2/cmd/wrapcheck@v2
 ❯ wrapcheck ./...
-/home/mrwormhole/Desktop/Hobby/highscore-api/repository/queries.sql.go:24:12: error returned from external package is unwrapped: sig: func (*database/sql.Row).Scan(dest ...any) error
-/home/mrwormhole/Desktop/Hobby/highscore-api/repository/queries.sql.go:34:9: error returned from interface method should be wrapped: sig: func (github.com/mrwormhole/highscore-api/repository.DBTX).ExecContext(context.Context, string, ...interface{}) (database/sql.Result, error)
-/home/mrwormhole/Desktop/Hobby/highscore-api/repository/queries.sql.go:46:12: error returned from external package is unwrapped: sig: func (*database/sql.Row).Scan(dest ...any) error
-/home/mrwormhole/Desktop/Hobby/highscore-api/repository/queries.sql.go:57:15: error returned from interface method should be wrapped: sig: func (github.com/mrwormhole/highscore-api/repository.DBTX).QueryContext(context.Context, string, ...interface{}) (*database/sql.Rows, error)
-/home/mrwormhole/Desktop/Hobby/highscore-api/repository/queries.sql.go:64:16: error returned from external package is unwrapped: sig: func (*database/sql.Rows).Scan(dest ...any) error
-/home/mrwormhole/Desktop/Hobby/highscore-api/repository/queries.sql.go:69:15: error returned from external package is unwrapped: sig: func (*database/sql.Rows).Close() error
-/home/mrwormhole/Desktop/Hobby/highscore-api/repository/queries.sql.go:72:15: error returned from external package is unwrapped: sig: func (*database/sql.Rows).Err() error
-/home/mrwormhole/Desktop/Hobby/highscore-api/repository/queries.sql.go:92:12: error returned from external package is unwrapped: sig: func (*database/sql.Row).Scan(dest ...any) error
+/home/occamist/Desktop/Hobby/highscore-api/repository/queries.sql.go:24:12: error returned from external package is unwrapped: sig: func (*database/sql.Row).Scan(dest ...any) error
+/home/occamist/Desktop/Hobby/highscore-api/repository/queries.sql.go:34:9: error returned from interface method should be wrapped: sig: func (github.com/occamist/highscore-api/repository.DBTX).ExecContext(context.Context, string, ...interface{}) (database/sql.Result, error)
+/home/occamist/Desktop/Hobby/highscore-api/repository/queries.sql.go:46:12: error returned from external package is unwrapped: sig: func (*database/sql.Row).Scan(dest ...any) error
+/home/occamist/Desktop/Hobby/highscore-api/repository/queries.sql.go:57:15: error returned from interface method should be wrapped: sig: func (github.com/occamist/highscore-api/repository.DBTX).QueryContext(context.Context, string, ...interface{}) (*database/sql.Rows, error)
+/home/occamist/Desktop/Hobby/highscore-api/repository/queries.sql.go:64:16: error returned from external package is unwrapped: sig: func (*database/sql.Rows).Scan(dest ...any) error
+/home/occamist/Desktop/Hobby/highscore-api/repository/queries.sql.go:69:15: error returned from external package is unwrapped: sig: func (*database/sql.Rows).Close() error
+/home/occamist/Desktop/Hobby/highscore-api/repository/queries.sql.go:72:15: error returned from external package is unwrapped: sig: func (*database/sql.Rows).Err() error
+/home/occamist/Desktop/Hobby/highscore-api/repository/queries.sql.go:92:12: error returned from external package is unwrapped: sig: func (*database/sql.Row).Scan(dest ...any) error
 ```
 
 [Wrapcheck](https://github.com/tomarrell/wrapcheck) as the name suggests enforce you to wrap errors with useful information. It doesn't check `%v` vs `%w`, it only checks you don't do `if err != nil { return err }`, I actually quite like this linter because [google styling guide](https://google.github.io/styleguide/go/best-practices#adding-information-to-errors) enforces us to decorate the error with what's being called such as `fmt.Errorf("something.Do(): %v", err)`
@@ -287,4 +287,4 @@ One fun fact, sqlc generated code suffers from this dizziness a lot 😄 next ti
 
 ## The Ending
 
-Thanks for reading, if you made it this far, I hope you learnt something new or productive. I have been using a huge bundle of linters for last 5 years. If you are interested in a golangci-linter config. Check out my gist [here](https://gist.github.com/mrwormhole/a2f775c9a3b8932135ab4a80ebdedfd8), this is based on my opinions so you can tweak accordingly based on your project.
+Thanks for reading, if you made it this far, I hope you learnt something new or productive. I have been using a huge bundle of linters for last 5 years. If you are interested in a golangci-linter config. Check out my gist [here](https://gist.github.com/occamist/a2f775c9a3b8932135ab4a80ebdedfd8), this is based on my opinions so you can tweak accordingly based on your project.

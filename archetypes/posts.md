@@ -9,7 +9,7 @@ tags:
 - myThirdTag
 - myFourthTag
 slug: "{{ .Name | urlize }}"
-canonicalURL: https://mrwormhole.gitlab.io/posts/slug
+canonicalURL: https://occamist.gitlab.io/posts/slug
 ShowReadingTime: true
 ShowBreadCrumbs: true
 ShowPostNavLinks: true

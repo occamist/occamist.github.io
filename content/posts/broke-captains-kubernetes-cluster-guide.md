@@ -9,7 +9,7 @@ tags:
 - linux
 - k3s
 slug: "broke-captains-kubernetes-cluster-guide"
-canonicalURL: https://wormholerelays.com/posts/broke-captains-kubernetes-cluster-guide
+canonicalURL: https://occamist.dev/posts/broke-captains-kubernetes-cluster-guide
 ShowReadingTime: true
 ShowBreadCrumbs: true
 ShowPostNavLinks: true
@@ -209,7 +209,7 @@ spec:
     spec:
       containers:
         - name: simple-pirate
-          image: mrwormhole/simple-pirate
+          image: occamist/simple-pirate
           ports:
             - containerPort: 80
 ```

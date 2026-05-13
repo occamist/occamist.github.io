@@ -7,7 +7,7 @@ tags:
 - linux
 - opensource
 slug: arch-installation-for-beginners
-canonicalURL: https://wormholerelays.com/posts/arch-installation-for-beginners
+canonicalURL: https://occamist.dev/posts/arch-installation-for-beginners
 ShowReadingTime: true
 ShowBreadCrumbs: true
 ShowPostNavLinks: true
@@ -15,7 +15,7 @@ ShowWordCount: true
 ShowRssButtonInSectionTermList: true
 draft: false
 cover:
-  image: https://wormholerelays.com/qbqoshmoeu.webp
+  image: https://occamist.dev/qbqoshmoeu.webp
   alt: arch-linux-penguin
 ---
 

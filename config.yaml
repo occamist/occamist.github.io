@@ -1,6 +1,6 @@
-baseURL: http://wormholerelays.com/
+baseURL: http://occamist.dev/
 languageCode: en-us
-title: WormholeRelays
+title: Occamist.dev
 theme: PaperMod
 pagination:
   pagerSize: 5
@@ -39,11 +39,11 @@ params:
 
   homeInfoParams:
     Title: Hello there! 🐧🐧🐧
-    Content: "Welcome to WormholeRelays, this is mrwormhole's blog about software engineering 🌌"
+    Content: "Welcome to Occamist's blog about software engineering 🌌"
 
   socialIcons:
     - name: github
-      url: "https://github.com/mrwormhole"
+      url: "https://github.com/occamist"
     - name: linkedin
       url: "https://linkedin.com/in/talha-altinel"
     - name: cv

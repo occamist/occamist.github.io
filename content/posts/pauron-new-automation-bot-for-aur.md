@@ -8,7 +8,7 @@ tags:
 - linux
 - opensource
 slug: pauron-new-automation-bot-for-aur
-canonicalURL: https://wormholerelays.com/posts/pauron-new-automation-bot-for-aur
+canonicalURL: https://occamist.dev/posts/pauron-new-automation-bot-for-aur
 ShowReadingTime: true
 ShowBreadCrumbs: true
 ShowPostNavLinks: true
@@ -22,15 +22,15 @@ cover:
 
 I have been quiet for a few months, the reason being I had an opportunity to develop new interesting things and I have been experimenting with some other technologies while trying to find the best use cases.
 
-Meanwhile, I received a comment about a package that I have been maintaining for Arch Linux and I had no available time to respond or update my AUR package. If you remember from my previous post [Packaging Go for Arch Linux Tutorial](https://wormholerelays.com/posts/packaging-go-for-arch-linux-tutorial), I like maintaining AUR packages but it gets time consuming when you need to track new releases and update version, SHA and commit hashes manually by hand. I had to come up with my own niche solution.
+Meanwhile, I received a comment about a package that I have been maintaining for Arch Linux and I had no available time to respond or update my AUR package. If you remember from my previous post [Packaging Go for Arch Linux Tutorial](https://occamist.dev/posts/packaging-go-for-arch-linux-tutorial), I like maintaining AUR packages but it gets time consuming when you need to track new releases and update version, SHA and commit hashes manually by hand. I had to come up with my own niche solution.
 
 ![The AUR Thread](/aur-comments.png)
 
 ## What is Pauron? What does it solve?
 
-I dedicated a day and created [Pauron](https://github.com/mrwormhole/pauron), when you have lame problems, you solve them with lame languages. Pauron is essentially a single file program that checks the upstream GitHub URL for your AUR package, if there is no newer version, it will not do anything. If there is a newer version, it will patch required values in PKGBUILD and .SRCINFO then push it to AUR with a new commit.
+I dedicated a day and created [Pauron](https://github.com/occamist/pauron), when you have lame problems, you solve them with lame languages. Pauron is essentially a single file program that checks the upstream GitHub URL for your AUR package, if there is no newer version, it will not do anything. If there is a newer version, it will patch required values in PKGBUILD and .SRCINFO then push it to AUR with a new commit.
 
-This solves a lot of manual hand tasks such as entering a new version, entering a new SHA hash and entering a new commit hash which is mentioned on my [previous post](https://wormholerelays.com/posts/packaging-go-for-arch-linux-tutorial) about AUR packages.
+This solves a lot of manual hand tasks such as entering a new version, entering a new SHA hash and entering a new commit hash which is mentioned on my [previous post](https://occamist.dev/posts/packaging-go-for-arch-linux-tutorial) about AUR packages.
 
 ## Getting Started
 
@@ -93,7 +93,7 @@ INFO: SSH key fingerprint: 256 SHA256:TwGFdHlbNpteILDQx4/cOXD/PiDNnq2C9B/0h7Xste
 # aur.archlinux.org:22 SSH-2.0-OpenSSH_10.0
 INFO: Added AUR host key to known_hosts
 INFO: SSH test completed with exit code: 1
-INFO: SSH stderr: Welcome to AUR, mrwormhole! Interactive shell is disabled.
+INFO: SSH stderr: Welcome to AUR, occamist! Interactive shell is disabled.
 Try `ssh aur@aur.archlinux.org help` for a list of commands.
 
 INFO: Processing AUR package: ssh://aur@aur.archlinux.org/k3sup.git
@@ -122,7 +122,7 @@ INFO: SSH key fingerprint: 256 SHA256:TwGFdHlbNpteILDQx4/cOXD/PiDNnq2C9B/0h7Xste
 # aur.archlinux.org:22 SSH-2.0-OpenSSH_10.0
 INFO: Added AUR host key to known_hosts
 INFO: SSH test completed with exit code: 1
-INFO: SSH stderr: Welcome to AUR, mrwormhole! Interactive shell is disabled.
+INFO: SSH stderr: Welcome to AUR, occamist! Interactive shell is disabled.
 Try `ssh aur@aur.archlinux.org help` for a list of commands.
 
 INFO: Processing AUR package: ssh://aur@aur.archlinux.org/k3sup.git

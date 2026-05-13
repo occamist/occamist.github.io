@@ -8,7 +8,7 @@ tags:
 - typescript
 - cross-platform
 slug: new-release-keyboard-app-v0.2.0
-canonicalURL: https://wormholerelays.com/posts/new-release-keyboard-app-v0.2.0
+canonicalURL: https://occamist.dev/posts/new-release-keyboard-app-v0.2.0
 ShowReadingTime: true
 ShowBreadCrumbs: true
 ShowPostNavLinks: true
@@ -46,7 +46,7 @@ The interesting part I discovered was implementing NOOP buttons for Korean. It s
 
 ## Final Words
 
-Checkout the [releases](https://github.com/mrwormhole/keyboard-app/releases) for v0.2.0
+Checkout the [releases](https://github.com/occamist/keyboard-app/releases) for v0.2.0
 
 If you are Arch Linux user, Pauron bot got you covered [here](https://aur.archlinux.org/packages/keyboard-app). Please upvote it! ;)
 
