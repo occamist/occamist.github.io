@@ -209,7 +209,7 @@ spec:
     spec:
       containers:
         - name: simple-pirate
-          image: occamist/simple-pirate
+          image: mrwormhole/simple-pirate
           ports:
             - containerPort: 80
 ```

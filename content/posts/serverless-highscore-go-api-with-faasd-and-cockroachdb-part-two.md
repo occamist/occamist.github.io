@@ -60,7 +60,7 @@ functions:
   get-highscores:
     lang: golang-http
     handler: ./get-highscores
-    image: occamist/get-highscores:latest
+    image: mrwormhole/get-highscores:latest
     build_args:
       GO111MODULE: on
     environment:
@@ -286,7 +286,7 @@ functions:
   get-highscores:
     lang: golang-http
     handler: ./get-highscores
-    image: occamist/get-highscores:latest
+    image: mrwormhole/get-highscores:latest
     build_args:
       GO111MODULE: on
     environment:
@@ -298,7 +298,7 @@ functions:
   post-highscore:
     lang: golang-http
     handler: ./post-highscore
-    image: occamist/post-highscore:latest
+    image: mrwormhole/post-highscore:latest
     build_args:
       GO111MODULE: on
     environment:
@@ -480,7 +480,7 @@ functions:
   get-highscores:
     lang: golang-http
     handler: ./get-highscores
-    image: occamist/get-highscores:latest
+    image: mrwormhole/get-highscores:latest
     build_args:
       GO111MODULE: on
     environment:
@@ -492,7 +492,7 @@ functions:
   post-highscore:
     lang: golang-http
     handler: ./post-highscore
-    image: occamist/post-highscore:latest
+    image: mrwormhole/post-highscore:latest
     build_args:
       GO111MODULE: on
     environment:
@@ -505,7 +505,7 @@ functions:
   delete-highscore:
     lang: golang-http
     handler: ./delete-highscore
-    image: occamist/delete-highscore:latest
+    image: mrwormhole/delete-highscore:latest
     build_args:
       GO111MODULE: on
     environment:
