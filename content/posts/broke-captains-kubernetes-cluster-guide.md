@@ -17,21 +17,30 @@ ShowWordCount: true
 ShowRssButtonInSectionTermList: true
 draft: false
 cover:
-  image: https://res.cloudinary.com/practicaldev/image/fetch/s--pb5JkNwi--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/9fm476hwwfv873ef5fr1.jpg
+  image: 1_O_keDnti5ZjuEFXbpa5YaQ.webp
   alt: yellow-shining-k3s-background
 ---
 
 ## The Intro
 
-In this guide, I will be showing how to set up a simple Kubernetes(K3S) cluster which will have 1 master node and 2 worker nodes on Hetzner Cloud. My main goal is to make newcomers' transition to Kubernetes very smooth as a person who suffered enough with complex tutorials/bills and didn't get enough chance to poke a Kubernetes cluster.
+In this guide, I will be showing how to set up a simple Kubernetes(K3S) cluster
+which will have 1 master node and 2 worker nodes on Hetzner Cloud. My main goal
+is to make newcomers' transition to Kubernetes very smooth as a person who
+suffered enough with complex tutorials/bills and didn't get enough chance to
+poke a Kubernetes cluster.
 
-This tutorial should be applicable to any cloud provider but be warned pricing would be extremely different. If you come to learn Kubernetes, this could be your starting point to set up your own cluster and get started poking around with an actual production-ready cluster with k3s.
+This tutorial should be applicable to any cloud provider but be warned pricing would be
+extremely different. If you come to learn Kubernetes, this could be your starting point to
+set up your own cluster and get started poking around with an actual production-ready
+cluster with k3s.
 
 ## Quick QA
 
 - What is K3S?
 
-It is a production-ready, stable and lightweight flavor of Kubernetes, think it is like Debian being a flavor of Linux. It is also the best choice for learning multi-master and multi-worker node architecture.
+It is a production-ready, stable and lightweight flavor of Kubernetes, think it is like
+Debian being a flavor of Linux. It is also the best choice for learning multi-master and
+multi-worker node architecture.
 
 - Why not teach us minikube/kind/microk8s?
 
@@ -47,7 +56,10 @@ Not needed because k3s binaries ship with everything that is needed
 
 - What is the difference between a master node and a worker node?
 
-A master node is often referred to a K3S server and a worker node is often referred to a K3S agent. For high availability(HA), the recommendation is to have at least 3 master nodes, 3 worker nodes, and 1 managed database outside of your master node instead of having an embedded SQLite database.
+A master node is often referred to a K3S server and a worker node is often referred to a
+K3S agent. For high availability(HA), the recommendation is to have at least 3 master
+nodes, 3 worker nodes, and 1 managed database outside of your master node instead of
+having an embedded SQLite database.
 
 ![master-and-worker.png](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3awe8zagg9ta58pkehsh.png)
 
@@ -63,17 +75,29 @@ Let's add our ssh-key to our local machine and public ssh-key to the cloud UI. T
 
 ![hetzner-ssh-tab.png](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/4u78hq4mserlga6rx4l0.png)
 
-After that, let's quickly create our private network which will be used for our compute instances for the cluster's nodes communication between the master and the worker nodes. ☎️
+After that, let's quickly create our private network which will be used for our compute
+instances for the cluster's nodes communication between the master and the worker nodes.
+☎️
 
 ![hetzner-network-tab.png](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/8eeb5kdo1vns8fh8qlw5.png)
 
 ![nebula-network-created.png](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/azzu13gtv38khkghpnos.png)
 
-We are finally ready to create our compute instances. Now I will create my master node which can also be called as k3s server. I will call my master node's name "jack-sparrow". I will pick "Debian 11" as my Linux distro choice for rock-solid server stability and being a reliable open source project.
+We are finally ready to create our compute instances. Now I will create my master node
+which can also be called as k3s server. I will call my master node's name "jack-sparrow".
+I will pick "Debian 11" as my Linux distro choice for rock-solid server stability and
+being a reliable open source project.
 
-I will also take advantage of multiple instance creation and set the instance count to 3. The other 2 instances will be my worker nodes which can also be called as k3s agents. I will call them "black-pearl" and "flying-dutchman". If you want to extend your worker nodes, you can keep going with all the ship names from Pirates of the Caribbean. For master nodes, I will be using captain names 🏴‍☠️
+I will also take advantage of multiple instance creation and set the instance count to 3.
+The other 2 instances will be my worker nodes which can also be called as k3s agents. I
+will call them "black-pearl" and "flying-dutchman". If you want to extend your worker
+nodes, you can keep going with all the ship names from Pirates of the Caribbean. For
+master nodes, I will be using captain names 🏴‍☠️
 
-I have picked CX11 instance which is the cheapest option available. 6GB RAM and 60GB SSD should be sufficient enough for most of your projects. I skipped additional volume and the firewall. I added my created network and my created SSH key. Remember, this is for broke captains. 🚢
+I have picked CX11 instance which is the cheapest option available. 6GB RAM and 60GB SSD
+should be sufficient enough for most of your projects. I skipped additional volume and the
+firewall. I added my created network and my created SSH key. Remember, this is for broke
+captains. 🚢
 
 ![hetzner-server-tab.png](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ftpsdccm412zt4iqhjpx.png)
 
@@ -83,17 +107,21 @@ I have picked CX11 instance which is the cheapest option available. 6GB RAM and 
 
 ## Prerequisites for K3S
 
-SSH into **the master node and the worker nodes.** Update /etc/hosts files before we get our great k3s binaries which has everything including containerd runtime and CNI(container network interface). 🐋
+SSH into **the master node and the worker nodes.** Update /etc/hosts files before we get
+our great k3s binaries which has everything including containerd runtime and CNI(container
+network interface). 🐋
 
 ```bash
-$ ssh root@94.130.227.124
+ssh root@94.130.227.124
 
-$ apt update && sudo apt upgrade
+apt update && sudo apt upgrade
 
-$ apt install apparmor apparmor-utils // Debian dependency for the Kernel
+apt install apparmor apparmor-utils // Debian dependency for the Kernel
 ```
 
-After you have updated **every nodes**' /etc/hosts file with GNU nano. Optionally you can install nmap CLI tool to make sure your network is functioning properly and other instances are connected through the web with `nmap -sn 10.0.0.1/24` 🕸️
+After you have updated **every nodes**' /etc/hosts file with GNU nano. Optionally you can
+install nmap CLI tool to make sure your network is functioning properly and other
+instances are connected through the web with `nmap -sn 10.0.0.1/24` 🕸️
 
 ![created-compute-instances-ip-addresses.png](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vkm3itty3kmkbwx8mjpx.png)
 
@@ -142,7 +170,10 @@ $ cat /var/lib/rancher/k3s/server/node-token
 bc3f7dee0308f09e5a3645f4b06343eea2644296cdK1d79a977d0e193a10187497f::server:9ae1e45b8b58be56a8282a84c7e3715b
 ```
 
-Let's install k3s agents in our computing instances which are called black-pearl and flying-dutchman! Our master IP (jack-sparrow) is `10.0.0.4` in our nebula network. And our token is `bc3f7dee0308f09e5a3645f4b06343eea2644296cdK1d79a977d0e193a10187497f::server:9ae1e45b8b58be56a8282a84c7e3715b`
+Let's install k3s agents in our computing instances which are called black-pearl and
+flying-dutchman! Our master IP (jack-sparrow) is `10.0.0.4` in our nebula network. And our
+token is
+`bc3f7dee0308f09e5a3645f4b06343eea2644296cdK1d79a977d0e193a10187497f::server:9ae1e45b8b58be56a8282a84c7e3715b`
 
 ```bash
 curl -sfL http://get.k3s.io | K3S_URL=https://10.0.0.4:6443 K3S_TOKEN=bc3f7dee0308f09e5a3645f4b06343eea2644296cdK1d79a977d0e193a10187497f::server:9ae1e45b8b58be56a8282a84c7e3715b sh -
@@ -177,7 +208,11 @@ flying-dutchman   Ready    <none>                 12s   v1.21.7+k3s1   116.203.9
 
 ## Extras(Install LENS)
 
-Lens is a Kubernetes UI for managing your cluster resources. It comes bundled with Helm and kubectl for your local workstation. You can install lens binary from the github under the name lensapp/lens. We will be taking the kube config from jack sparrow and pasting it into your Lens. To do that let's find our kube config and copy paste. And change the server IP address to external IP address of our jack sparrow instead of 127.0.0.1
+Lens is a Kubernetes UI for managing your cluster resources. It comes bundled with Helm
+and kubectl for your local workstation. You can install lens binary from the github under
+the name lensapp/lens. We will be taking the kube config from jack sparrow and pasting it
+into your Lens. To do that let's find our kube config and copy paste. And change the
+server IP address to external IP address of our jack sparrow instead of 127.0.0.1
 
 ```bash
 root@jack-sparrow:~# cat /etc/rancher/k3s/k3s.yaml
@@ -259,7 +294,9 @@ NAME             CLASS    HOSTS   ADDRESS                                       
 pirate-ingress   <none>   *       116.203.32.141,116.203.90.71,94.130.227.124   80      136m
 ```
 
-Now we can enable the lens metrics from pinned clusters and go to its settings and install all of the required things via lens metrics tab. We will need prometheus, kube state metrics and node exporter from lens metrics section.
+Now we can enable the lens metrics from pinned clusters and go to its settings and install
+all of the required things via lens metrics tab. We will need prometheus, kube state
+metrics and node exporter from lens metrics section.
 
 ![lens-metrics-1](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3w9nasytexinft7blrl6.png)
 
@@ -271,12 +308,14 @@ Now we can enable the lens metrics from pinned clusters and go to its settings a
 
 I really thank you for making it to the end! I tried to simplify things as much as possible 🙂
 
-I want to send special thanks and give credit to **[Victor Shamallah](https://computingforgeeks.com/author/cloud_eng/)** and **[Alex Ellis](https://www.alexellis.io/)** I also hope this guide was helpful to the readers and the newcomers. If you have learned something new, feel free to share. If you have any feedback/suggestions/problems, spam in the comments section. Have a good day!
+I want to send special thanks and give credit to **[Victor
+Shamallah](https://computingforgeeks.com/author/cloud_eng/)** and **[Alex
+Ellis](https://www.alexellis.io/)** I also hope this guide was helpful to the readers and
+the newcomers. If you have learned something new, feel free to share. If you have any
+feedback/suggestions/problems, spam in the comments section. Have a good day!
 
 ## References
 
 - [Install K3S on Ubuntu with Docker](https://computingforgeeks.com/install-kubernetes-on-ubuntu-using-k3s/)
 - [K3S Installation Requirements](https://rancher.com/docs/k3s/latest/en/installation/installation-requirements/)
 - [Kubernetes Ingress - Traefik](https://doc.traefik.io/traefik/providers/kubernetes-ingress/)
- 
-

@@ -21,12 +21,18 @@ cover:
 
 ## The Problem
 
-Hello, in this short and sweet post, I will show a handy bash script to catch slow go tests based on their durations and their go cache status, but first we need to define the problem.
+Hello, in this short and sweet post, I will show a handy bash script to catch slow go
+tests based on their durations and their go cache status, but first we need to define the
+problem.
 
-Our current problem is when I run `go test -v ./...` we get simply huge output that is overwhelming with subtest outputs as well as t.Parallel pauses/continues. Plus, my inner
-OCD strikes when some things are always cached and some things are always not cached, I could never guess why and I never have time to look at plain log that has 1 million lines.
+Our current problem is when I run `go test -v ./...` we get simply huge output that is
+overwhelming with subtest outputs as well as t.Parallel pauses/continues. Plus, my inner
+OCD strikes when some things are always cached and some things are always not cached, I
+could never guess why and I never have time to look at plain log that has 1 million lines.
 
-So I came up with a solution that mimicks better output and displays what is cached or not. You could run this in your CI/CD pipelines etc... to keep track of test duration increases/decreases or test cache statuses.
+So I came up with a solution that mimicks better output and displays what is cached or
+not. You could run this in your CI/CD pipelines etc... to keep track of test duration
+increases/decreases or test cache statuses.
 
 ## The Solution
 
@@ -66,7 +72,8 @@ func TestParallelSleep(t *testing.T) {
 
 This was roughly outputting this verbose output which is what `-v` means
 sure, we could ignore using `-v` but then I have no idea which specific test case is causing issues and increasing its duration or ignoring its cache.
-```
+
+```text
 ❯ go test -v ./...
 ?       github.com/lingua-sensei/lingua-sensei  [no test files]
 === RUN   TestQuickSleep
@@ -106,7 +113,6 @@ ok      github.com/lingua-sensei/lingua-sensei/pkg2     (cached)
 PASS
 ok      github.com/lingua-sensei/lingua-sensei/pkg2/pkg3        0.504s
 ```
-
 
 I have come up with this handy bash script below
 
@@ -160,7 +166,7 @@ go test -v -json $TEST_ARGS \
 
 What happens is we use `jq` to filter the json format of our go tests then we use `awk` to make it pretty and it ends up as a result below
 
-```
+```text
 Test Name                                                    Duration Status
 ════════════════════════════════════════════════════════════════════════════════
 
@@ -190,4 +196,3 @@ Thanks for reading, I swear I don't like bazel and shady shell scripts lying aro
 ## References
 
 - [Go: Find Slow Tests by Leigh](https://leighmcculloch.com/posts/go-find-slow-tests/)
-

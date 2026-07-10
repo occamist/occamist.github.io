@@ -16,18 +16,20 @@ ShowPostNavLinks: true
 ShowWordCount: true
 ShowRssButtonInSectionTermList: true
 draft: false
-cover:
-  image: https://res.cloudinary.com/practicaldev/image/fetch/s--ea7XJS8j--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/h4c6buxj2aacuo4v7xs5.jpg
-  alt: blue-gopher-background
 ---
 
 ## The Intro
-&nbsp;&nbsp;&nbsp;&nbsp;Hello everyone, in this post I will be demonstrating how you can run localstack with Terraform and Docker and give you a proof of concept go application so you can tweak it according to your logic and follow anything you want to do such as integration/system tests for AWS services in your own CI/CD or localhost.
+
+&nbsp;&nbsp;&nbsp;&nbsp;Hello everyone, in this post I will be demonstrating how you can run localstack with
+Terraform and Docker and give you a proof of concept go application so you can tweak it
+according to your logic and follow anything you want to do such as integration/system
+tests for AWS services in your own CI/CD or localhost.
 
 Github Repository for PoC(proof of concept):
 [hotdog-PoC-repository](https://github.com/occamist/hotdog-localstack-PoC)
 
 Requirements:
+
 * Docker
 * docker-compose
 * Terraform
@@ -35,17 +37,30 @@ Requirements:
 * aws CLI
 * A bit of lambda, dynamodb and kinesis knowledge
 
-Localstack is a testing/mocking framework for developing Cloud applications locally. Where in theory, you can stick any AWS service and emulate them in localhost without ever needing the real AWS account.
+Localstack is a testing/mocking framework for developing Cloud applications locally. Where
+in theory, you can stick any AWS service and emulate them in localhost without ever
+needing the real AWS account.
 Localstack’s primary goal to make integration/system testing less painful for developers.
 
-
 ### What was built?
-![flow-diagram](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/omwafkqkirsigsvqjxts.png)
-&nbsp;&nbsp;&nbsp;&nbsp;I built an imaginary hotdog food chain! (Note: No dogs were harmed in this process). Essentially PoC logic was I had 1 dogs dynamodb table which consist a dog model with 3 attributes ID, name, isAlive and isEaten. Then I had 3 lambdas dogCatcher, dogProcessor and hotDogDespatcher. dog catcher's responsibility is to get alive dogs via external API requests(I generated data for simplicity) with unique IDs and different names. Dog processor's responsibility is to kill the dogs and persist the data that was sent from dog catcher. Hot dog despatcher's responsibility is to give processed dogs(hot dogs) to people and observe which ones were eaten via external API requests(I assumed hot dogs get eaten if their name has case-insensitive "e" or "a" letter)
 
-Aside from lambdas, I had 3 kinesis streams and 3 kinesis triggers in order to make lambdas talk to each other. The named kinesis streams is as follows; caughtDogs, hotDogs, eatenHotDogs.
+![flow-diagram](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/omwafkqkirsigsvqjxts.png)
+&nbsp;&nbsp;&nbsp;&nbsp;I built an imaginary hotdog food chain! (Note: No dogs were harmed in this process).
+Essentially PoC logic was I had 1 dogs dynamodb table which consist a dog model with 3
+attributes ID, name, isAlive and isEaten. Then I had 3 lambdas dogCatcher, dogProcessor
+and hotDogDespatcher. dog catcher's responsibility is to get alive dogs via external API
+requests(I generated data for simplicity) with unique IDs and different names. Dog
+processor's responsibility is to kill the dogs and persist the data that was sent from dog
+catcher. Hot dog despatcher's responsibility is to give processed dogs(hot dogs) to people
+and observe which ones were eaten via external API requests(I assumed hot dogs get eaten
+if their name has case-insensitive "e" or "a" letter)
+
+Aside from lambdas, I had 3 kinesis streams and 3 kinesis triggers in order to make
+lambdas talk to each other. The named kinesis streams is as follows; caughtDogs, hotDogs,
+eatenHotDogs.
 
 ### Starting Localstack docker container with docker-compose
+
 ```yaml
 version: '3.8'
 
@@ -83,10 +98,13 @@ networks:
         external:
             name: localstack-tutorial
 ```
+
 ```shell
 docker-compose up -d --build
 ```
+
 ### Bootstrapping our infra with Terraform
+
 ```tf
 provider "aws" {
   region                      = "ap-southeast-2"
@@ -209,6 +227,7 @@ resource "aws_lambda_event_source_mapping" "hot_dog_despatcher_trigger" {
   maximum_record_age_in_seconds = 604800
 }
 ```
+
 ```shell
 ./zip-it.sh
 terraform init
@@ -217,18 +236,29 @@ terraform apply --auto-approve
 ```
 
 ### Checking with aws CLI if everything is setup correctly
+
 ![aws-cli-outputs](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ia14j0l3e49c4um78yaq.png)
 To see if everything was working correctly, I invoke dogCatcher and check out the dynamodb table;
+
 ```shell
 aws lambda invoke --function-name dogCatcher --endpoint-url=http://localhost:4566 --payload '{"quantity": 2}' output.txt
 ```
+
 ```shell
 aws dynamodb scan --endpoint-url http://localhost:4566 --table-name dogs
 ```
+
 ![aws-cli-results](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/117i7343k9c4t75yio5b.png)
 
 ### Result
-I had pretty much great experience with Localstack. I think even though Localstack is quite new, it seems like it can be used for learning AWS SDKs as a developer without actually using live AWS services and getting billed for it. This can also speed up developer's integration tests(along with CI/CD) and debugging processes if configured properly because there are many services Localstack provides and I have only configured and used 3 of them here. This also saves lots of costs for any companies.
+
+I had pretty much great experience with Localstack. I think even though Localstack is
+quite new, it seems like it can be used for learning AWS SDKs as a developer without
+actually using live AWS services and getting billed for it. This can also speed up
+developer's integration tests(along with CI/CD) and debugging processes if configured
+properly because there are many services Localstack provides and I have only configured
+and used 3 of them here. This also saves lots of costs for any companies.
 
 Also don't forget to check out Localstack's slack channel, they are really helpful for any issues you run into or for further questions!
-- [localstack-community.slack](https://localstack-community.slack.com)
+
+* [localstack-community.slack](https://localstack-community.slack.com)

@@ -23,7 +23,10 @@ In this post, I announce my newest tool for language learners. As long as I am l
 
 ## What is Laverna? What does it solve?
 
-Laverna is a sleek command-line tool that transforms text into spoken audio. All it needs is a config file to read. Whether you're practicing Thai greetings, perfecting your Japanese pronunciation, or working on English phrases, Laverna can boost your productivity when you want to store individual language audios.
+Laverna is a sleek command-line tool that transforms text into spoken audio. All it needs
+is a config file to read. Whether you're practicing Thai greetings, perfecting your
+Japanese pronunciation, or working on English phrases, Laverna can boost your productivity
+when you want to store individual language audios.
 
 ## Getting Started
 
@@ -46,13 +49,13 @@ After you have installed, simply create a YAML file such as example.yaml
 
 then pass along the command line as below.
 
-```
+```shell
 laverna -file example.yaml
 ```
 
 if you fancy the flags, here they are;
 
-```
+```text
 Usage of laverna:
   -file string
         filename path that is used for reading YAML file
@@ -60,6 +63,8 @@ Usage of laverna:
         maximum number of concurrent downloads (default 20)
 ```
 
-Want to give Laverna a try this holiday season? Head over to [Laverna GitHub Repository](https://github.com/occamist/laverna) and you can start creating your personalized language learning audio. Happy Holidays and happy learning! 🎄🎧✨
+Want to give Laverna a try this holiday season? Head over to [Laverna GitHub
+Repository](https://github.com/occamist/laverna) and you can start creating your
+personalized language learning audio. Happy Holidays and happy learning! 🎄🎧✨
 
-Found a bug? Spotted an issue? Have a brilliant idea to share? Don't hesitate to give me a nudge! 
+Found a bug? Spotted an issue? Have a brilliant idea to share? Don't hesitate to give me a nudge!

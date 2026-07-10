@@ -1,5 +1,5 @@
-baseURL: http://occamist.dev/
-languageCode: en-us
+baseURL: https://occamist.dev/
+locale: en-us
 title: Occamist.dev
 theme: PaperMod
 pagination:
@@ -8,6 +8,15 @@ pagination:
 minify:
   disableXML: true
   minifyOutput: true
+
+markup:
+  goldmark:
+    renderer:
+      # All content is authored solely by us, not by untrusted/external
+      # contributors, so the raw-HTML XSS risk this flag guards against
+      # doesn't apply here. Without it, tags like <br/> and <cite> in our
+      # posts get silently stripped from the rendered output.
+      unsafe: true
 
 menu:
   main:

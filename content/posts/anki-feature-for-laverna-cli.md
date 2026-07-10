@@ -23,15 +23,22 @@ In this post, I announce an overhaul for Laverna CLI and new version which suppo
 
 ## The Recap
 
-In this blog [post](https://occamist.dev/posts/a-christmas-gift-for-language-learners) I have introduced Laverna CLI which was a language learning tool designed to swallow Google's speech API. It was immensely useful but it lacked some features such as Anki integration.
+In this blog [post](https://occamist.dev/posts/a-christmas-gift-for-language-learners) I
+have introduced Laverna CLI which was a language learning tool designed to swallow
+Google's speech API. It was immensely useful but it lacked some features such as Anki
+integration.
 
 ## The New Anki Integration
 
 Starting with `v0.1.0`, users can use the new `anki` command to create anki decks with laverna CLI.
 
-Now with the most amazing Go project [urfave/cli](https://github.com/urfave/cli), it was super easy to support subcommands and flags of subcommands. I was happy to dodge spf13/cobra's complexity. 
+Now with the most amazing Go project [urfave/cli](https://github.com/urfave/cli), it was
+super easy to support subcommands and flags of subcommands. I was happy to dodge
+spf13/cobra's complexity.
 
-And the previous default `laverna` command is now same as `laverna run` to keep the sweet backward compatibility. Plus we get shell completions for bash/zsh/fish as well. Make sure to check it out [here](https://github.com/occamist/laverna#shell-completions)
+And the previous default `laverna` command is now same as `laverna run` to keep the sweet
+backward compatibility. Plus we get shell completions for bash/zsh/fish as well. Make sure
+to check out the [shell completions docs](https://github.com/occamist/laverna#shell-completions)
 
 ```sh
 ❯ laverna --help
@@ -77,7 +84,10 @@ GLOBAL OPTIONS:
 
 ```
 
-For the new `anki` command, you need to provide a CSV file, a voice name and your anki profile name. Profile name is pretty much for determining your Anki media folder so that downloaded audios get stored there. Voice name is Google's language ISO code for the specific voices. The CSV file is where all the things are defined.
+For the new `anki` command, you need to provide a CSV file, a voice name and your anki
+profile name. Profile name is pretty much for determining your Anki media folder so that
+downloaded audios get stored there. Voice name is Google's language ISO code for the
+specific voices. The CSV file is where all the things are defined.
 
 Your CSV file should look like below.
 
@@ -90,18 +100,30 @@ Text,HelperText,TextA,TextB,TextC,TextD
 - It must specify the helper text which is a sentence for the reader to translate.
 - It must have 4 text choices to guess the answer word.
 
-Then we can run `laverna anki --profile Talha --voice th --file thai.csv` and it will output our actual CSV deck to be imported into Anki, by the time this command runs we get all the audios.
+Then we can run `laverna anki --profile Talha --voice th --file thai.csv` and it will
+output our actual CSV deck to be imported into Anki, by the time this command runs we get
+all the audios.
 
-The below CSV will be called "Athai.csv", "A" postfix indicates the audio filenames that were created in media folder of Anki. It is a reference to the unique audio files.
+The below CSV will be called "Athai.csv", "A" postfix indicates the audio filenames that
+were created in media folder of Anki. It is a reference to the unique audio files.
 
 ```csv
 ฉันชอบ{{c1::ฟัง}}เพลง,I like to listen to music,ฟัง,เล่น,ดู,อ่าน,[sound:a.mp3],[sound:b.mp3],[sound:c.mp3],[sound:d.mp3],[sound:e.mp3]
 ```
 
-Finally, if you have imported the [Cloze Multi Choice Audio note type](https://github.com/occamist/laverna/blob/main/note-type.apkg) into Anki, you can go ahead and import the CSV in `File > Import > Select CSV` then choose `Cloze Multi Choice Audio` note type and pick delimeter as comma.
+Finally, if you have imported the [Cloze Multi Choice Audio note
+type](https://github.com/occamist/laverna/blob/main/note-type.apkg) into Anki, you can go
+ahead and import the CSV in `File > Import > Select CSV` then choose `Cloze Multi Choice
+Audio` note type and pick delimeter as comma.
 
 ## Final words
 
-The best thing about this approach is you can sync whole media with Anki Sync so that you don't need to manage storage in your devices manually. And this is very exciting if you have Anki mobile app on your phone, you can really make the most of your time with learning languages.
+The best thing about this approach is you can sync whole media with Anki Sync so that you
+don't need to manage storage in your devices manually. And this is very exciting if you
+have Anki mobile app on your phone, you can really make the most of your time with
+learning languages.
 
-The CSV inputs can be generally generated via Gemini, in the future I plan to wrap Gemini API inside the Laverna CLI but there is no certain roadmap as I am testing it for now. I am currently testing Gemini's Vietnamese word generation, example CSV can be found [here](https://github.com/occamist/laverna/blob/main/testdata/anki-vi-example.csv)
+The CSV inputs can be generally generated via Gemini, in the future I plan to wrap Gemini
+API inside the Laverna CLI but there is no certain roadmap as I am testing it for now. I
+am currently testing Gemini's Vietnamese word generation, an
+[example CSV](https://github.com/occamist/laverna/blob/main/testdata/anki-vi-example.csv) is available
