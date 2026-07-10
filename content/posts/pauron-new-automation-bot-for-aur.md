@@ -20,21 +20,38 @@ cover:
   alt: sauron-image
 ---
 
-I have been quiet for a few months, the reason being I had an opportunity to develop new interesting things and I have been experimenting with some other technologies while trying to find the best use cases.
+I have been quiet for a few months, the reason being I had an opportunity to develop new
+interesting things and I have been experimenting with some other technologies while trying
+to find the best use cases.
 
-Meanwhile, I received a comment about a package that I have been maintaining for Arch Linux and I had no available time to respond or update my AUR package. If you remember from my previous post [Packaging Go for Arch Linux Tutorial](https://occamist.dev/posts/packaging-go-for-arch-linux-tutorial), I like maintaining AUR packages but it gets time consuming when you need to track new releases and update version, SHA and commit hashes manually by hand. I had to come up with my own niche solution.
+Meanwhile, I received a comment about a package that I have been maintaining for Arch
+Linux and I had no available time to respond or update my AUR package. If you remember
+from my previous post [Packaging Go for Arch Linux
+Tutorial](https://occamist.dev/posts/packaging-go-for-arch-linux-tutorial), I like
+maintaining AUR packages but it gets time consuming when you need to track new releases
+and update version, SHA and commit hashes manually by hand. I had to come up with my own
+niche solution.
 
 ![The AUR Thread](/aur-comments.png)
 
 ## What is Pauron? What does it solve?
 
-I dedicated a day and created [Pauron](https://github.com/occamist/pauron), when you have lame problems, you solve them with lame languages. Pauron is essentially a single file program that checks the upstream GitHub URL for your AUR package, if there is no newer version, it will not do anything. If there is a newer version, it will patch required values in PKGBUILD and .SRCINFO then push it to AUR with a new commit.
+I dedicated a day and created [Pauron](https://github.com/occamist/pauron), when you have
+lame problems, you solve them with lame languages. Pauron is essentially a single file
+program that checks the upstream GitHub URL for your AUR package, if there is no newer
+version, it will not do anything. If there is a newer version, it will patch required
+values in PKGBUILD and .SRCINFO then push it to AUR with a new commit.
 
-This solves a lot of manual hand tasks such as entering a new version, entering a new SHA hash and entering a new commit hash which is mentioned on my [previous post](https://occamist.dev/posts/packaging-go-for-arch-linux-tutorial) about AUR packages.
+This solves a lot of manual hand tasks such as entering a new version, entering a new SHA
+hash and entering a new commit hash which is mentioned on my [previous
+post](https://occamist.dev/posts/packaging-go-for-arch-linux-tutorial) about AUR packages.
 
 ## Getting Started
 
-Pauron is meant to be run on github actions, but you can do a cron job on anywhere else if you prefer. I have been using YAML file below to periodically run it. If you have more than one package, you can specify it with `-p` equivelant to `--pkg-name` like below. You should also setup `AUR_SSH_KEY` env variable which is your private SSH key for AUR. 
+Pauron is meant to be run on github actions, but you can do a cron job on anywhere else if
+you prefer. I have been using YAML file below to periodically run it. If you have more
+than one package, you can specify it with `-p` equivelant to `--pkg-name` like below. You
+should also setup `AUR_SSH_KEY` env variable which is your private SSH key for AUR.
 
 To try it out, you can fork my repository and adjust your github actions along with `AUR_SSH_KEY` secret if you have AUR account or interested in AUR package maintenance.
 
@@ -83,7 +100,7 @@ AUR_SSH_KEY="$(cat ~/.ssh/pauron)" pipx run pauron -p k3sup
 
 The normal output if your package is up to date will look like below:
 
-```
+```text
 > Run python main.py -p k3sup
 INFO: SSH key fingerprint: 256 SHA256:TwGFdHlbNpteILDQx4/cOXD/PiDNnq2C9B/0h7XsteA pauron@pauron.com (ED25519)
 # aur.archlinux.org:22 SSH-2.0-OpenSSH_10.0
@@ -112,7 +129,7 @@ INFO: Newest Github version(0.13.9) and current PKGBUILD version(0.13.9) are sam
 
 If the package is not up to date, the output will look like below:
 
-```
+```text
 > Run python main.py -p k3sup
 INFO: SSH key fingerprint: 256 SHA256:TwGFdHlbNpteILDQx4/cOXD/PiDNnq2C9B/0h7XsteA pauron@pauron.com (ED25519)
 # aur.archlinux.org:22 SSH-2.0-OpenSSH_10.0
@@ -147,5 +164,7 @@ To ssh://aur.archlinux.org/k3sup.git
 INFO: Successfully committed and pushed 0.13.9
 ```
 
-Quick note: the upstream source URL needs to be GitHub since I use GitHub API to determine latest release versions but feel free to PR or make an issue about any other version control systems such as GitLab
+Quick note: the upstream source URL needs to be GitHub since I use GitHub API to determine
+latest release versions but feel free to PR or make an issue about any other version
+control systems such as GitLab
 if you think it is useful to have!

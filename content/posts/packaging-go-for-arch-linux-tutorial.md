@@ -22,7 +22,10 @@ cover:
 
 ## Getting Started
 
-&nbsp;&nbsp;&nbsp;&nbsp; In this tutorial, I will be showing how to package Go application for [Arch Linux User Repository (AUR)](https://aur.archlinux.org/). We will be opening an AUR account and go through PKGBUILD template and follow Arch's Wiki guidelines for Go. By the end of the tutorial, you will be able to upload your own Arch package that uses Go to AUR.
+&nbsp;&nbsp;&nbsp;&nbsp; In this tutorial, I will be showing how to package Go application for [Arch Linux User
+Repository (AUR)](https://aur.archlinux.org/). We will be opening an AUR account and go
+through PKGBUILD template and follow Arch's Wiki guidelines for Go. By the end of the
+tutorial, you will be able to upload your own Arch package that uses Go to AUR.
 
 ## The Requirements
 
@@ -40,7 +43,7 @@ We will fill up the username and the email in this form, as well as the most imp
 Generate and fill in the SSH public key..
 
 ```sh
-$ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 ```
 
 ```sh
@@ -50,7 +53,7 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDiniLTrxNbDH/R66BYUHieRT9sTqkn2678picCjF8M
 
 After you copy pasted your public ssh key into SSH public key box, change your `~/.gitconfig`
 
-```
+```ini
 [url "ssh://aur@aur.archlinux.org/"]
         insteadOf = https://aur.archlinux.org/
         insteadOf = http://aur.archlinux.org/
@@ -62,7 +65,7 @@ Finally run the final command and input the answer of the form to confirm.
 
 If you inspect `/usr/share/pacman/PKGBUILD.proto`, you will see the fields you can fill.
 
-```
+```bash
 # This is an example PKGBUILD file. Use this as a start to creating your own,
 # and remove these comments. For more information, see 'man PKGBUILD'.
 # NOTE: Please fill out the license field for your package! If it is unknown,
@@ -119,7 +122,7 @@ package() {
 
 In summary, you don't have to fill all these fields but will be good to remember what they are.
 
-- pkgname and pkgversion are the name of the software package and the version of the software you are providing. 
+- pkgname and pkgversion are the name of the software package and the version of the software you are providing.
 - pkgrel and epoch are additional way of subversioning the pkgversion, most of the time, you won't use
 - pkgdesc is the description for your software, arch is architecture and most of the time, it is just x86_64
 - url and license are the url of the software repository and the actual license name, these are quite important.
@@ -145,13 +148,16 @@ there are also 4 most common standard PKGBUILD shell functions such as;
 - `prepare()` is used to make changes or apply patches to the source code before the build process begins
 - `build()` is where the actual compilation or building of the software package takes place.
 - `check()` runs tests to ensure that the software behaves as expected. It is used to verify the correctness of the package before installation
-- `package()` puts the built files into a packaged format suitable for installation. It copies files into a temporary directory structure that mirrors the final installation directory.
+- `package()` puts the built files into a packaged format suitable for installation. It
+copies files into a temporary directory structure that mirrors the final installation
+directory.
 
 ## Create a .gitignore
 
-Since we will be building multiple times to confirm our package, I highly recommend a good `.gitignore` to not accidentally push your artifacts. Below is my .gitignore file.
+Since we will be building multiple times to confirm our package, I highly recommend a good
+`.gitignore` to not accidentally push your artifacts. Below is my .gitignore file.
 
-```
+```gitignore
 *
 !/.gitignore
 !/.SRCINFO
@@ -160,9 +166,13 @@ Since we will be building multiple times to confirm our package, I highly recomm
 
 ## Basic PKGBUILD for Go
 
-From the thought of my mind, I have made a very simple `PKGBUILD` file for `k3sup` which is an amazing tool for bootstrapping k3s clusters. Please check [k3sup](https://github.com/alexellis/k3sup) out and support if you like.
+From the thought of my mind, I have made a very simple `PKGBUILD` file for `k3sup` which
+is an amazing tool for bootstrapping k3s clusters. Please check
+[k3sup](https://github.com/alexellis/k3sup) out and support if you like.
 
-**Friendly reminder for pkgname**; xyzpackage means a build from stable version of the source, xyzpackage-git means a build from the latest commit of the source, xyzpackage-bin means fetching prebuilt binary without build phase.
+**Friendly reminder for pkgname**; xyzpackage means a build from stable version of the
+source, xyzpackage-git means a build from the latest commit of the source, xyzpackage-bin
+means fetching prebuilt binary without build phase.
 
 ```sh
 # Maintainer: Talha Altinel <talhaaltinel@hotmail.com>
@@ -209,11 +219,16 @@ package() {
 }
 ```
 
-In my build phase, I compile the source to create a k3sup binary and I also run the binary to generate shell script completions. Give kudos to this functionality which comes from [spf13/cobra](https://github.com/spf13/cobra) Go library for CLIs.
+In my build phase, I compile the source to create a k3sup binary and I also run the binary
+to generate shell script completions. Give kudos to this functionality which comes from
+[spf13/cobra](https://github.com/spf13/cobra) Go library for CLIs.
 
 In my package phase, I move the binary, the shell script completions and the license to correct places.
 
-That all sounds cool and sweet but we are missing couple of things, so Arch Wiki has an extensive guide about this [here](https://wiki.archlinux.org/title/Go_package_guidelines) but long story short I need a program called `namcap` and when I do `sudo pacman -S namcap` then run namcap on PKGBUILD and produced .zst archive.
+That all sounds cool and sweet but we are missing couple of things, so Arch Wiki has an
+extensive [Go package guidelines page](https://wiki.archlinux.org/title/Go_package_guidelines)
+but long story short I need a program called `namcap` and when I do `sudo pacman -S
+namcap` then run namcap on PKGBUILD and produced .zst archive.
 
 ```sh
 $ namcap ./PKGBUILD
@@ -224,8 +239,11 @@ k3sup W: ELF file ('usr/bin/k3sup') lacks PIE.
 k3sup W: Dependency included, but may not be needed ('openssh')
 ```
 
-the biggest surprise was all of arch guides actually only allowed specifically built type of Go binaries with CGO :( the above PKGBUILD was completely valid but if you want your package in the official arch repositories outside of AUR, you need to ensure FULL RELRO and PIE are satisfied. I won't be explaining these terms too much, it is essentially binary hardening for the extreme security.
-
+the biggest surprise was all of arch guides actually only allowed specifically built type
+of Go binaries with CGO :( the above PKGBUILD was completely valid but if you want your
+package in the official arch repositories outside of AUR, you need to ensure FULL RELRO
+and PIE are satisfied. I won't be explaining these terms too much, it is essentially
+binary hardening for the extreme security.
 
 ## Security Hardened PKGBUILD for Go
 
@@ -293,27 +311,27 @@ now it all looks amazingly secure at a binary level if your glibc version doesn'
 let's push it to the AUR now. Remember to renew `.SRCINFO` before every push. Also pay attention to already taken package names in AUR.
 
 ```sh
-$ updpkgsums && makepkg --printsrcinfo > .SRCINFO
-$ git init
-$ git remote add origin https://aur.archlinux.org/k3sup.git
-$ git add . && git commit -m "initial release"
-$ git push -u origin master
+updpkgsums && makepkg --printsrcinfo > .SRCINFO
+git init
+git remote add origin https://aur.archlinux.org/k3sup.git
+git add . && git commit -m "initial release"
+git push -u origin master
 ```
 
 ## The End Result
 
-- https://aur.archlinux.org/packages/k3sup
+- `https://aur.archlinux.org/packages/k3sup`
 
 ```sh
-$ git clone https://aur.archlinux.org/packages/k3sup
-$ cd ./k3sup && less ./PKGBUILD
-$ makepkg -si
+git clone https://aur.archlinux.org/packages/k3sup
+cd ./k3sup && less ./PKGBUILD
+makepkg -si
 ```
 
 ## The References
 
 - [Arch Wiki](https://wiki.archlinux.org/title/creating_packages)
-- [k9s](https://gitlab.archlinux.org/archlinux/packaging/packages/k9s/-/blob/main/PKGBUILD?ref_type=heads) 
+- [k9s](https://gitlab.archlinux.org/archlinux/packaging/packages/k9s/-/blob/main/PKGBUILD?ref_type=heads)
 - [goreleaser](https://gitlab.archlinux.org/archlinux/packaging/packages/goreleaser/-/blob/main/PKGBUILD?ref_type=heads)
 - [k3sup](https://github.com/alexellis/k3sup)
 

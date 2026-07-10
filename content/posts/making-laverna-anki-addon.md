@@ -20,7 +20,9 @@ cover:
   alt: temple-image
 ---
 
-Recently, I've been working on simplifying the Laverna CLI integration with Anki. What seemed challenging during the planning phase turned out to be elegant in execution. Here's a summary of the challenges and takeaways.
+Recently, I've been working on simplifying the Laverna CLI integration with Anki. What
+seemed challenging during the planning phase turned out to be elegant in execution. Here's
+a summary of the challenges and takeaways.
 
 ## The Original Workflow
 
@@ -31,19 +33,37 @@ Three months ago, I built an integration between Laverna CLI and Anki with this 
 3. User runs Laverna CLI, which outputs enriched CSV
 4. User manually imports the CSV via Anki's deck import tab
 
-Everything looked normal on the surface, but steps 1 and 4 were cumbersome and repetitive. Since Anki doesn't provide an official SDK or REST API, I needed to find another approach. Step 1 and 4 were also more error prone since it contained my internal app logic.
+Everything looked normal on the surface, but steps 1 and 4 were cumbersome and repetitive.
+Since Anki doesn't provide an official SDK or REST API, I needed to find another approach.
+Step 1 and 4 were also more error prone since it contained my internal app logic.
 
 ## Discovery
 
-While researching, I discovered [Anki Connect](https://github.com/FooSoft/anki-connect) which is an addon written as a single `__init__.py` file. Anki also has [documentation on writing addons](https://addon-docs.ankiweb.net/intro.html). It was quite readable way to interface with Anki.
+While researching, I discovered [Anki Connect](https://github.com/FooSoft/anki-connect)
+which is an addon written as a single `__init__.py` file. Anki also has [documentation on
+writing addons](https://addon-docs.ankiweb.net/intro.html). It was quite readable way to
+interface with Anki.
 
-Adding Python to a 100% pure Go repository felt strange, but I decided to build a proof of concept since there was no other way to do it. I have tried sqlite3 reverse engineering of Anki's DB but it was strongly disencouraged way.
+Adding Python to a 100% pure Go repository felt strange, but I decided to build a proof of
+concept since there was no other way to do it. I have tried sqlite3 reverse engineering of
+Anki's DB but it was strongly disencouraged way.
 
-The constraint was clear: I had to use [Anki's bundled Python dependencies](https://github.com/ankitects/anki/blob/main/qt/pyproject.toml#L7-L19), which vary by Anki version. Looking at Anki Connect's codebase, I noticed it used only standard library and no external dependencies which was very outdated but safe approach, it basically had to re-invent HTTPServer and HTTPClient via Unix sockets.
+The constraint was clear: I had to use [Anki's bundled Python
+dependencies](https://github.com/ankitects/anki/blob/main/qt/pyproject.toml#L7-L19), which
+vary by Anki version. Looking at Anki Connect's codebase, I noticed it used only standard
+library and no external dependencies which was very outdated but safe approach, it
+basically had to re-invent HTTPServer and HTTPClient via Unix sockets.
 
-Fortunately, `flask`, `waitress`, `request`, and `jsonschema` were already available in Anki's dependencies. I chose Flask (for HTTP abstractions) and Waitress (for the WSGI server) since I needed an endpoint to receive enriched CSV data and trigger Anki's import functionality.
+Fortunately, `flask`, `waitress`, `request`, and `jsonschema` were already available in
+Anki's dependencies. I chose Flask (for HTTP abstractions) and Waitress (for the WSGI
+server) since I needed an endpoint to receive enriched CSV data and trigger Anki's import
+functionality.
 
-One another constraint was we could only run the addon code after Anki application started running. This meant that development workflow would need some sort of copy/paste or symlinking workflow which was not pretty but doable. Basically Anki addons were zipped `__init__.py` files which relied on Anki library and its dependencies and rarely vendored addon dependencies with no solid dependency hashes.
+One another constraint was we could only run the addon code after Anki application started
+running. This meant that development workflow would need some sort of copy/paste or
+symlinking workflow which was not pretty but doable. Basically Anki addons were zipped
+`__init__.py` files which relied on Anki library and its dependencies and rarely vendored
+addon dependencies with no solid dependency hashes.
 
 ## The Problem
 
@@ -70,7 +90,10 @@ thread = threading.Thread(target=start_server, daemon=True)
 thread.start()
 ```
 
-The issue: Anki's SQLite driver connection isn't thread-safe. The collection object (`mw.col`) can only be accessed from Qt's main thread. The [documentation mentions this](https://addon-docs.ankiweb.net/background-ops.html). Additionally, `__init__.py` can not block so we run HTTP server in deamon mode :)
+The issue: Anki's SQLite driver connection isn't thread-safe. The collection object
+(`mw.col`) can only be accessed from Qt's main thread. The [documentation mentions
+this](https://addon-docs.ankiweb.net/background-ops.html). Additionally, `__init__.py` can
+not block so we run HTTP server in deamon mode :)
 
 ## The Solution
 
@@ -106,7 +129,9 @@ This blocks until `future.result()` returns and handles exceptions.
 
 ## Simplifying Further
 
-I'm not a fan of try/catch boilerplate. After reading the [`note_count` implementation](https://github.com/ankitects/anki/blob/main/pylib/anki/collection.py#L599-L600), I decided to use tuples for error handling:
+I'm not a fan of try/catch boilerplate. After reading the [`note_count`
+implementation](https://github.com/ankitects/anki/blob/main/pylib/anki/collection.py#L599-L600),
+I decided to use tuples for error handling:
 
 ```python
 from concurrent.futures import Future

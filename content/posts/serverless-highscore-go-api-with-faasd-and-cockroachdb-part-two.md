@@ -16,40 +16,55 @@ ShowPostNavLinks: true
 ShowWordCount: true
 ShowRssButtonInSectionTermList: true
 draft: false
-cover:
-  image: https://res.cloudinary.com/practicaldev/image/fetch/s--LlQw-qDZ--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7wil7ysrogww2w5tsklt.png
-  alt: turquoise-gopher-background
 ---
 
 ## The Intro
-&nbsp;&nbsp;&nbsp;&nbsp;Hi everyone, this is the 2nd part of the series, we will be developing our API in this part. I will assume you have already followed the previous part and setup faasd and CockroachDB in your cloud server instance and have faas-cli in your both client computer and cloud server instance. I will also assume you have Go on your computer and a proper text editor. Let's quickly get started.
+
+&nbsp;&nbsp;&nbsp;&nbsp;Hi everyone, this is the 2nd part of the series, we will be developing our API in this
+part. I will assume you have already followed the previous part and setup faasd and
+CockroachDB in your cloud server instance and have faas-cli in your both client computer
+and cloud server instance. I will also assume you have Go on your computer and a proper
+text editor. Let's quickly get started.
 
 [highscore-api-github-repo](https://github.com/occamist/highscore-api)
 
 Requirements:
+
 - Go knowledge
 - docker hub account
 - faas-cli
 - up and running faasd server
 - basic SQL knowledge
 
-First, we would like to make sure your faas-cli works correctly in your server, you should already know your server IP address, your username and your password for faasd. Let's see if the server instance validates us.
+First, we would like to make sure your faas-cli works correctly in your server, you should
+already know your server IP address, your username and your password for faasd. Let's see
+if the server instance validates us.
+
 ```bash
 faas-cli login -g http://23.88.60.124:8080 -u admin -p jackthegiant
 ```
+
 ![faas-cli_login_command](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/in0ja6sunlyulasg1nyv.png)
 
 ## Faasd Project Init
+
 ```bash
 faas-cli template store pull golang-http
 faas-cli new --lang golang-http get-highscores
 ```
+
 ![faasd-cli_project_command](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/z8yvbv0n654x3oqeyci7.png)
-The above command will create a yml file and a function handler that we will have to adjust for faasd. As an initial clean up, I will rename my get-highscores.yml to stack.yml, this file will contain our functions for faasd. It is general practice to have it as stack.yml because you will need 1 less flag during `faas-cli up -f filename.yml`
+The above command will create a yml file and a function handler that we will have to
+adjust for faasd. As an initial clean up, I will rename my get-highscores.yml to
+stack.yml, this file will contain our functions for faasd. It is general practice to have
+it as stack.yml because you will need 1 less flag during `faas-cli up -f filename.yml`
 
-I will also change the provider's gateway to my server cloud instance which is **http://[[SERVER_IP]]:8080**.In my case, It is http://23.88.60.124:8080.
+I will also change the provider's gateway to my server cloud instance which is **http://[[SERVER_IP]]:8080**.In my case, It is `http://23.88.60.124:8080`.
 
-The other most important part is to give your docker hub container name to image names and turn on go modules in environment variables. Here is what it looks like after tidying up stack.yml. **Make sure you login to your docker hub account and create a repository there first**
+The other most important part is to give your docker hub container name to image names and
+turn on go modules in environment variables. Here is what it looks like after tidying up
+stack.yml. **Make sure you login to your docker hub account and create a repository there
+first**
 
 ```yaml
 version: 1.0
@@ -69,13 +84,18 @@ functions:
       POSTGRES_USER: root
       POSTGRES_DB: highscore_db
 ```
+
 ![docker-hub-repo-creation](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/27uld13o4985gisvg6zf.png)
 
-
-Now you have the initial configuration setup, let's deploy your generated handler to see if it is getting deployed. Your template code should look like this. The best part is now you can deploy very easily with a single command. This single up command will build your container(faas-cli build), deploy your code to the container registry(faas-cli push) then pull that container to your
+Now you have the initial configuration setup, let's deploy your generated handler to see
+if it is getting deployed. Your template code should look like this. The best part is now
+you can deploy very easily with a single command. This single up command will build your
+container(faas-cli build), deploy your code to the container registry(faas-cli push) then
+pull that container to your
 cloud server(faas-cli deploy) instance.
 
-**get-highscores/handler.go**
+### get-highscores/handler.go (initial template)
+
 ```go
 package function
 
@@ -98,21 +118,31 @@ func Handle(req handler.Request) (handler.Response, error) {
 	}, err
 }
 ```
+
 ```bash
 docker login
 faas-cli up
 ```
-![docker-login](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/j2td6n7qgtablsjuhf0e.png)![faas-cli-up](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qfzt7obafazub0zglzxr.png)
 
-You can additionally use faas-cli list to see running functions. Now I will grab sqlc to generate a repository layer for our Go function handler. To use sqlc, you will install its CLI, sqlc.json file which will point to our queries.sql and schema.sql
+![docker-login](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/j2td6n7qgtablsjuhf0e.png)
+
+![faas-cli-up](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qfzt7obafazub0zglzxr.png)
+
+You can additionally use faas-cli list to see running functions. Now I will grab sqlc to
+generate a repository layer for our Go function handler. To use sqlc, you will install its
+CLI, sqlc.json file which will point to our queries.sql and schema.sql
 
 ```bash
 go get github.com/kyleconroy/sqlc/cmd/sqlc
 ```
 
-Here is how my sqlc.json, schema.sql and queries.sql look like. If you don't know basic SQL, I strongly suggest you to visit [W3C SQL docs](https://www.w3schools.com/sql/default.Asp) for quick recap and have a look at [sqlc docs](https://docs.sqlc.dev/en/latest/index.html)
+Here is how my sqlc.json, schema.sql and queries.sql look like. If you don't know basic
+SQL, I strongly suggest you to visit [W3C SQL
+docs](https://www.w3schools.com/sql/default.Asp) for quick recap and have a look at [sqlc
+docs](https://docs.sqlc.dev/en/latest/index.html)
 
 sqlc.json
+
 ```json
 {
   "version": "1",
@@ -128,6 +158,7 @@ sqlc.json
 ```
 
 schema.sql
+
 ```sql
 CREATE TABLE highscores (
   id BIGSERIAL PRIMARY KEY,
@@ -137,6 +168,7 @@ CREATE TABLE highscores (
 ```
 
 queries.sql
+
 ```sql
 -- name: GetHighscore :one
 SELECT * FROM highscores
@@ -160,22 +192,30 @@ DELETE FROM highscores
 WHERE username = $1;
 ```
 
-Now we can generate our repository layer since we have completed all of the database interactions. The below command will generate all of the repository code for Go from SQL.
+Now we can generate our repository layer since we have completed all of the database
+interactions. The below command will generate all of the repository code for Go from SQL.
 
 ```bash
 sqlc generate
 ```
 
-I will initialize go modules and get [pq](https://github.com/lib/pq) which is a pure Go postgres driver. Why do we use postgres driver for CockroachDB? CockroachDB supports PostgreSQL wire protocol. This means it is almost fully compatible with postgres drivers and ORMs.
+I will initialize go modules and get [pq](https://github.com/lib/pq) which is a pure Go
+postgres driver. Why do we use postgres driver for CockroachDB? CockroachDB supports
+PostgreSQL wire protocol. This means it is almost fully compatible with postgres drivers
+and ORMs.
 
-```
+```shell
 go mod init github.com/occamist/highscore-api
 go get github.com/lib/pq
 ```
 
-Let's finish up our handler for get-highscores. I will establish a database connection and check for the correct HTTP method. I will also check if there is a username query for the highscore. If yes, I will return a specific user's highscore. Otherwise, I will return all of the highscores in the database. *Please make sure to import lib/pq manually.*
+Let's finish up our handler for get-highscores. I will establish a database connection and
+check for the correct HTTP method. I will also check if there is a username query for the
+highscore. If yes, I will return a specific user's highscore. Otherwise, I will return all
+of the highscores in the database. *Please make sure to import lib/pq manually.*
 
-**get-highscores/handler.go**
+### get-highscores/handler.go (finished)
+
 ```go
 package function
 
@@ -271,9 +311,10 @@ func Handle(req handler.Request) (handler.Response, error) {
 
 ```
 
-Now I will create my second function and create its docker hub repo and tidy up stack.yml. I will also add a token credential so that not everyone can add highscore to my database.
+Now I will create my second function and create its docker hub repo and tidy up stack.yml.
+I will also add a token credential so that not everyone can add highscore to my database.
 
-```
+```shell
 faas-cli new --lang golang-http post-highscore --append stack.yml
 ```
 
@@ -309,9 +350,12 @@ functions:
       BEARER_TOKEN: QeV5f7eSvJnO0dDYCc9DcH5BEwpm7P3j
 ```
 
-I will create a package called model and middleware. My model will only contain how a request should look like and my middleware will look like a basic auth header check against our specified BEARER_TOKEN env variable.
+I will create a package called model and middleware. My model will only contain how a
+request should look like and my middleware will look like a basic auth header check
+against our specified BEARER_TOKEN env variable.
 
-**model/highscore.go**
+### model/highscore.go
+
 ```go
 package model
 
@@ -321,7 +365,8 @@ type Highscore struct {
 }
 ```
 
-**middleware/auth.go**
+### middleware/auth.go
+
 ```go
 package middleware
 
@@ -347,9 +392,16 @@ func Authorization(req handler.Request) error {
 }
 ```
 
-Finishing up the handler for post-highscore. I will establish a database connection and check for the correct HTTP method. I will check for the authorization header. If there are no users with that username, we will create a new one and return that in the body. If there is someone with that username, we will check the incoming request's highscore and compare it with the one that highscore that is persisted. If that is higher, we can go ahead and update then return that in the body. Otherwise, we return empty 200 to the request.
+Finishing up the handler for post-highscore. I will establish a database connection and
+check for the correct HTTP method. I will check for the authorization header. If there are
+no users with that username, we will create a new one and return that in the body. If
+there is someone with that username, we will check the incoming request's highscore and
+compare it with the one that highscore that is persisted. If that is higher, we can go
+ahead and update then return that in the body. Otherwise, we return empty 200 to the
+request.
 
-**post-highscore/handler.go**
+### post-highscore/handler.go
+
 ```go
 package function
 
@@ -465,9 +517,11 @@ func Handle(req handler.Request) (handler.Response, error) {
 
 ```
 
-Now I will create my third and final handler and respectively its docker hub repo. I will add a token credential to this handler as well. Because not everyone needs to delete someone else's highscore :) your final yaml structure is given below.
+Now I will create my third and final handler and respectively its docker hub repo. I will
+add a token credential to this handler as well. Because not everyone needs to delete
+someone else's highscore :) your final yaml structure is given below.
 
-```
+```shell
 faas-cli new --lang golang-http delete-highscore --append stack.yml
 ```
 
@@ -516,9 +570,12 @@ functions:
       BEARER_TOKEN: Ru4BXyL7ALkey34cUJIIXBF67t1qrw37
 ```
 
-This handler will also handle its database connection and validate the authorization header then check the username in the URL query. Afterward, we delete the highscore that matches that username.
+This handler will also handle its database connection and validate the authorization
+header then check the username in the URL query. Afterward, we delete the highscore that
+matches that username.
 
-**delete-highscore/handler.go**
+### delete-highscore/handler.go
+
 ```go
 package function
 
@@ -600,16 +657,24 @@ func Handle(req handler.Request) (handler.Response, error) {
 Now we can do `faas-cli up` and see the deployed functions. You can also check out the dashboard to get the endpoint names.
 ![all-funcs-deployed](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/2unrlv2ucln97mhio7tt.png)
 
-If you are getting internal server error 500, that means you are returning an error to the function handler and you can easily debug your server. For example, I am returning an error for invalid HTTP methods. I can easily see logs with this command
-```
+If you are getting internal server error 500, that means you are returning an error to the
+function handler and you can easily debug your server. For example, I am returning an
+error for invalid HTTP methods. I can easily see logs with this command
+
+```shell
 journalctl -t openfaas-fn:get-highscores -r --lines 20
 ```
+
 ![checking-faasd-logs](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jnnca6diw43dfockh3cn.png)
 
 ## The end
-- http://23.88.60.124:8080/function/get-highscores
-- http://23.88.60.124:8080/function/post-highscore
-- http://23.88.60.124:8080/function/delete-highscore
 
-These are the endpoints we have created. Overall, I enjoyed how we can have a serverless developer experience without the need for any giant cloud service that is impossible to move around. Faasd is still a young but promising project for developers who don't want to deal with k8s infra complexity. Hope you enjoyed and learned something new. If you have any questions/issues, feel free to let me know. Take care!
+- `http://23.88.60.124:8080/function/get-highscores`
+- `http://23.88.60.124:8080/function/post-highscore`
+- `http://23.88.60.124:8080/function/delete-highscore`
 
+These are the endpoints we have created. Overall, I enjoyed how we can have a serverless
+developer experience without the need for any giant cloud service that is impossible to
+move around. Faasd is still a young but promising project for developers who don't want to
+deal with k8s infra complexity. Hope you enjoyed and learned something new. If you have
+any questions/issues, feel free to let me know. Take care!

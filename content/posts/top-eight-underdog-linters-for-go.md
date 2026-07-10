@@ -19,10 +19,11 @@ cover:
   alt: pug-image
 ---
 
-In this post, we will go over the most unknown 8 linters that are not used by the most people. These linters overall look unimportant, however they end up winning the hearts with their humbleness. If this sounds interesting, let's start.
+In this post, we will go over the most unknown 8 linters that are not used by the most
+people. These linters overall look unimportant, however they end up winning the hearts
+with their humbleness. If this sounds interesting, let's start.
 
 ## 8 Godox
-
 
 ```yaml
 # .golangci.yaml
@@ -48,9 +49,17 @@ main.go:18:2: main.go:18: Line contains TODO/BUG/FIXME/OPTIMIZE/HACK: "TODO: wha
 // TODO: what the hell is this
 ```
 
-[Godox](https://github.com/matoous/godox) checks the comments and dunks a linter error if unwanted comment is written with specific keywords. I encountered this linter after an incident that caused a prod deployment blockage due to me deleting TODO and hacky code section that were passing on all tests except prod environment tests. Long story short, there was no way for me to avoid TODO section logic because my task was interferring with already written hacky solution.
+[Godox](https://github.com/matoous/godox) checks the comments and dunks a linter error if
+unwanted comment is written with specific keywords. I encountered this linter after an
+incident that caused a prod deployment blockage due to me deleting TODO and hacky code
+section that were passing on all tests except prod environment tests. Long story short,
+there was no way for me to avoid TODO section logic because my task was interferring with
+already written hacky solution.
 
-The whole aim of this linter is to avoid this hackyness in the first place. Need a TODO? great, you can open a jira ticket and communicate with others instead of going the hacky route and throwing TODO for the next victim 😄 I am very big fan of this linter after that nasty experience.
+The whole aim of this linter is to avoid this hackyness in the first place. Need a TODO?
+great, you can open a jira ticket and communicate with others instead of going the hacky
+route and throwing TODO for the next victim 😄 I am very big fan of this linter after that
+nasty experience.
 
 ## 7 Gci
 
@@ -87,9 +96,16 @@ main.go:10:1: File is not properly formatted (gci)
 ^
 ```
 
-[Gci](https://github.com/daixiang0/gci) is very similar to what `goimports` does but manages import blocks the custom way that respects standard, 3rd party and local project imports. Basically more strict `goimports` that is visually pleasant to look at.
+[Gci](https://github.com/daixiang0/gci) is very similar to what `goimports` does but
+manages import blocks the custom way that respects standard, 3rd party and local project
+imports. Basically more strict `goimports` that is visually pleasant to look at.
 
-I had initially not considered something like this given the fact that `goimports` is good enough, but between different editors, I saw the issue that insertion of import line differs between X editor and Y editor due to automatic completions. On top of that `goimports` were passing as long as in the same block things were sorted. I didn't like the idea of having standard, 3rd party and local project imports in 1 block since it turned into a soup of imports.
+I had initially not considered something like this given the fact that `goimports` is good
+enough, but between different editors, I saw the issue that insertion of import line
+differs between X editor and Y editor due to automatic completions. On top of that
+`goimports` were passing as long as in the same block things were sorted. I didn't like
+the idea of having standard, 3rd party and local project imports in 1 block since it
+turned into a soup of imports.
 
 ## 6 Revive's exported
 
@@ -124,9 +140,18 @@ func DoThat() {
 ^
 ```
 
-As you may know, revive is a meta-linter which means it contains a lot of linter rules. You may not like that since some features are from deprecated golint. Today's most IDEs support what golint does or real kings such as `staticcheck` and `govet` do most of the work revive does. It is not recommended to run multiple meta-linters since there will be conflict.
+As you may know, revive is a meta-linter which means it contains a lot of linter rules.
+You may not like that since some features are from deprecated golint. Today's most IDEs
+support what golint does or real kings such as `staticcheck` and `govet` do most of the
+work revive does. It is not recommended to run multiple meta-linters since there will be
+conflict.
 
-However, there is one unique linter rule of revive, it is called [exported](https://github.com/mgechev/revive/blob/master/RULES_DESCRIPTIONS.md#exported) and helps you write down the comment for whatever is exported. This is quite useful as people forget to add comments for exported things. If it is a toy project, you probably don't need this. But if you are designing a library for someone else, you better have comments for the public.
+However, there is one unique linter rule of revive, it is called
+[exported](https://github.com/mgechev/revive/blob/master/RULES_DESCRIPTIONS.md#exported)
+and helps you write down the comment for whatever is exported. This is quite useful as
+people forget to add comments for exported things. If it is a toy project, you probably
+don't need this. But if you are designing a library for someone else, you better have
+comments for the public.
 
 ## 5 Tparallel
 
@@ -183,7 +208,11 @@ func TestScenarioOne(t *testing.T) {
      ^
 ```
 
-[Tparallel](https://github.com/moricho/tparallel) Pretty self-descriptive, if you called `t.Parallel()` on top and have a table of tests that are not calling `t.Parallel()`, it warns you to call again during table tests. And you may have forgetten to call `t.Parallel()` on top but called only during table tests. Ensures correct usage of `t.Parallel()` basically.
+[Tparallel](https://github.com/moricho/tparallel) Pretty self-descriptive, if you called
+`t.Parallel()` on top and have a table of tests that are not calling `t.Parallel()`, it
+warns you to call again during table tests. And you may have forgetten to call
+`t.Parallel()` on top but called only during table tests. Ensures correct usage of
+`t.Parallel()` basically.
 
 ## 4 Usestdlibvars
 
@@ -194,7 +223,9 @@ abc.go:203:46: "POST" can be replaced by http.MethodPost (usestdlibvars)
     req, err := http.NewRequestWithContext(ctx, "POST", URL, bytes.NewBufferString(formData))
 ```
 
-Ever used something such as 200 or "POST" but forgot that these exist in standard library, meet [usesstdlibvars](https://github.com/sashamelentyev/usestdlibvars), it is a nice eye candy which encourages more standard library usage.
+Ever used something such as 200 or "POST" but forgot that these exist in standard library,
+meet [usesstdlibvars](https://github.com/sashamelentyev/usestdlibvars), it is a nice eye
+candy which encourages more standard library usage.
 
 ## 3 Usetesting
 
@@ -218,7 +249,12 @@ abc_test.go:104:6: os.Setenv() could be replaced by t.Setenv() in TestStoreCreat
             ^
 ```
 
-this linter is quite new [usetesting](https://github.com/ldez/usetesting) and supersedes the good old [tenv](https://github.com/sivchari/tenv) , its aim is to purposely replace os and context operations with `t *testing.T` equivelants in your tests. I am looking forward to Go 1.24 so that all of `ctx := context.Background()` will be able to replaced by `t.Context()`, you can find more details about new `t.Context()` [here](https://devcenter.upsun.com/posts/go-124/#context-support-in-the-testing-package)
+this linter is quite new [usetesting](https://github.com/ldez/usetesting) and supersedes
+the good old [tenv](https://github.com/sivchari/tenv) , its aim is to purposely replace os
+and context operations with `t *testing.T` equivelants in your tests. I am looking forward
+to Go 1.24 so that all of `ctx := context.Background()` will be able to replaced by
+`t.Context()`, you can find more details in this
+[context support in testing writeup](https://devcenter.upsun.com/posts/go-124/#context-support-in-the-testing-package)
 
 ## 2 Nilnil
 
@@ -237,9 +273,15 @@ abc.go:79:2: return both a `nil` error and an invalid value: use a sentinel erro
         ^
 ```
 
-the linter [nilnil](https://github.com/Antonboom/nilnil) is here to avoid ambigious `nil,nil` returns. It could be a developer choice to do so. Famous Gorm has [this issue](https://github.com/go-gorm/gorm/issues/4416) which is a form of ambiguity in its public methods. It is like a code smell often.
+the linter [nilnil](https://github.com/Antonboom/nilnil) is here to avoid ambigious
+`nil,nil` returns. It could be a developer choice to do so. Famous Gorm has [this
+issue](https://github.com/go-gorm/gorm/issues/4416) which is a form of ambiguity in its
+public methods. It is like a code smell often.
 
-Technically consistency matters before introducing semantic errors, however I find myself more aligned with semantic errors rather than `nil, nil` return type of person. I think having a linter that checks this breach of contract is quite nice and elegant. I haven't seen any false positives with this linter ever.
+Technically consistency matters before introducing semantic errors, however I find myself
+more aligned with semantic errors rather than `nil, nil` return type of person. I think
+having a linter that checks this breach of contract is quite nice and elegant. I haven't
+seen any false positives with this linter ever.
 
 ## 1 Wrapcheck
 
@@ -281,10 +323,20 @@ func (q *Queries) ListHighscores(ctx context.Context) ([]Highscore, error) {
 /home/occamist/Desktop/Hobby/highscore-api/repository/queries.sql.go:92:12: error returned from external package is unwrapped: sig: func (*database/sql.Row).Scan(dest ...any) error
 ```
 
-[Wrapcheck](https://github.com/tomarrell/wrapcheck) as the name suggests enforce you to wrap errors with useful information. It doesn't check `%v` vs `%w`, it only checks you don't do `if err != nil { return err }`, I actually quite like this linter because [google styling guide](https://google.github.io/styleguide/go/best-practices#adding-information-to-errors) enforces us to decorate the error with what's being called such as `fmt.Errorf("something.Do(): %v", err)`
+[Wrapcheck](https://github.com/tomarrell/wrapcheck) as the name suggests enforce you to
+wrap errors with useful information. It doesn't check `%v` vs `%w`, it only checks you
+don't do `if err != nil { return err }`, I actually quite like this linter because [google
+styling
+guide](https://google.github.io/styleguide/go/best-practices#adding-information-to-errors)
+enforces us to decorate the error with what's being called such as
+`fmt.Errorf("something.Do(): %v", err)`
 
 One fun fact, sqlc generated code suffers from this dizziness a lot 😄 next time you are thinking about code generation, I suggest you think at least 10 more times.
 
 ## The Ending
 
-Thanks for reading, if you made it this far, I hope you learnt something new or productive. I have been using a huge bundle of linters for last 5 years. If you are interested in a golangci-linter config. Check out my gist [here](https://gist.github.com/occamist/a2f775c9a3b8932135ab4a80ebdedfd8), this is based on my opinions so you can tweak accordingly based on your project.
+Thanks for reading, if you made it this far, I hope you learnt something new or
+productive. I have been using a huge bundle of linters for last 5 years. If you are
+interested in a golangci-linter config. Check out my
+[golangci-lint config gist](https://gist.github.com/occamist/a2f775c9a3b8932135ab4a80ebdedfd8), this is based
+on my opinions so you can tweak accordingly based on your project.
