@@ -1,5 +1,5 @@
 ---
-title: "Laverna X Yomitan"
+title: "Laverna x Yomitan"
 date: 2026-07-11T00:00:00+00:00
 author: Talha Altinel
 description: "Time for Yomitan to shine, not the one in Okinawa!"
@@ -29,7 +29,7 @@ cover:
 - **[Go Report Card](https://github.com/gojp/goreportcard) is archived.** The repo was
   archived on July 1st and if you were relying on the hosted badge, it's time to self-host
   or drop it completely.
-- **[Laverna (my personal project for language learning)](https://github.com/occamist/laverna#yomitan) gets an audio HTTP server for Yomitan.**
+- **[Laverna](https://github.com/occamist/laverna#yomitan) (my personal project for language learning)** gets an audio HTTP server for Yomitan.
 
 We'll drill down into the last one, but first let's talk about what Yomitan actually is.
 
