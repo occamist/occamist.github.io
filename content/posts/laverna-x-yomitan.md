@@ -46,8 +46,8 @@ deck ahead of time and lose the "I hit this word in the wild" context that makes
 memorable in the first place.
 
 Yomitan fixes that friction: the dictionary comes to you, inline, at the moment you need
-it. But there was one problem, even though dictinaries were nice, audio sources were not that extensive and
-I would hit the famous empty click sound. Since my Laverna CLI was already great audio generator for many languages,
+it. But there was one problem, even though dictionaries were nice and wicked fast, audio sources were not that extensive and
+I would hit the famous empty click sound. Since my Laverna CLI was already great at generating audios for many languages,
 I decided to make a custom HTTP server that helps Yomitan to play better audio source.
 
 ## Yomitan Audio HTTP Server in Laverna
