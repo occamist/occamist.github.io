@@ -1,6 +1,6 @@
 ---
 title: "Laverna X Yomitan"
-date: 2026-07-10T00:00:00+00:00
+date: 2026-07-11T00:00:00+00:00
 author: Talha Altinel
 description: "Time for Yomitan to shine, not the one in Okinawa!"
 tags:
@@ -21,11 +21,11 @@ cover:
 
 - **[AUR bot attack](https://www.theregister.com/security/2026/06/15/arch-linux-locks-down-aur-signups-amid-wave-of-malicious-commits/5255511) poisoned 1% (1500) of entire repositories (150,000) in AUR.**
   I am back to firefox browser instead of brave browser which was installed from AUR.
-- **TypeScript 7 breaks the Astro language server.** TypeScript 7.0 shipped as a
+- **TypeScript 7 breaks the [Astro language server](https://github.com/withastro/roadmap/discussions/1321).** TypeScript 7.0 shipped as a
   ground-up rewrite in Go (10x faster builds, no argument there), but it dropped the
   programmatic compiler API that tools rely on to embed. Astro, Vue, and
   Svelte all lean on that API for their language servers, so right now just
-  lost editor support, not a broken build but a broken LSP [see astro discussion](https://github.com/withastro/roadmap/discussions/1321).
+  lost editor support, not a broken build but a broken LSP.
 - **[Go Report Card](https://github.com/gojp/goreportcard) is archived.** The repo was
   archived on July 1st and if you were relying on the hosted badge, it's time to self-host
   or drop it completely.
@@ -116,6 +116,6 @@ at `yomitan.occamist.dev`, and you can point Yomitan straight at it instead:
 https://yomitan.occamist.dev/?term={term}&reading={reading}&language={language}
 ```
 
-No setup required other than Yomitan as your browser extension, works from any device Yomitan runs on. 
+No setup required other than Yomitan as your browser extension, works from any device Yomitan runs on.
 
 Laverna loves Yomitan! happy learning.
