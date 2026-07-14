@@ -4,7 +4,8 @@ date: 2026-07-11T00:00:00+00:00
 author: Talha Altinel
 description: "Time for Yomitan to shine, not the one in Okinawa!"
 tags:
-- summary
+- go
+- cli
 slug: laverna-x-yomitan
 canonicalURL: https://occamist.dev/posts/laverna-x-yomitan
 ShowBreadCrumbs: true
